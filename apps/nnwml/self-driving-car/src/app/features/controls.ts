@@ -33,7 +33,7 @@ export default class Controls {
           break;
         }
       }
-      console.table(this);
+      // console.table(this);
     };
 
     // add event listeners for keyup
@@ -56,7 +56,7 @@ export default class Controls {
           break;
         }
       }
-      console.table(this);
+      // console.table(this);
     };
   }
 }
