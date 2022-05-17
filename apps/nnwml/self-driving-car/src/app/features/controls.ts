@@ -8,10 +8,17 @@ export default class Controls {
     this.left = false;
     this.right = false;
     this.reverse = false;
-    // add a private method for addKeyboardListeners to be called in constructor
+    // private method for addKeyboardListeners to be called in constructor
     this.addKeyboardListeners();
   }
+
   private addKeyboardListeners() {
+    /**
+     * if it was a document.onkeydown = function(event), the `this` in
+     * the scope would refer to the function here and
+     * not the `this` in Controls class
+     * */
+
     // add event listeners for keydown
     document.onkeydown = (event) => {
       switch (event.key) {
@@ -34,6 +41,7 @@ export default class Controls {
       }
       console.table(this);
     };
+
     // add event listeners for keyup
     document.onkeyup = (event) => {
       switch (event.key) {

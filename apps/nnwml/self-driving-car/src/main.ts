@@ -1,6 +1,5 @@
 import './app/app.element.ts';
 import Car from './app/features/car';
-import Controls from './app/features/controls';
 
 const canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
 
@@ -16,5 +15,12 @@ const car: Car = new Car(100, 100, 30, 50); /* now define the Car */
 // add car to DOM (in the canvas)
 car.draw(ctx);
 
-// intialize Controls so that it listens to keyboard events
-const controls: Controls = new Controls();
+animate();
+
+function animate() {
+  car.update();
+  car.draw(ctx);
+  /* calls the animate() method again and again
+  gives the illusion of movement of the car */
+  requestAnimationFrame(animate);
+}
