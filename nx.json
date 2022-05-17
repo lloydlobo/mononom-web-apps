@@ -5,7 +5,7 @@
     "defaultBase": "main"
   },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
+    "defaultCollection": "@nrwl/web"
   },
   "implicitDependencies": {
     "package.json": {
@@ -16,9 +16,10 @@
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "nx/tasks-runners/default",
+      "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "accessToken": "ODUyYzJmZTgtZTIyOC00MTczLWEyMTMtODMxOTY1Nzk4OThmfHJlYWQtd3JpdGU="
       }
     }
   },
@@ -29,5 +30,19 @@
         "projects": "dependencies"
       }
     ]
+  },
+  "defaultProject": "nnwml-self-driving-car",
+  "generators": {
+    "@nrwl/web:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/web:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    }
   }
 }

@@ -1,0 +1,28 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/nnwml/self-driving-car-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/nnwml/self-driving-car-e2e/cypress.json",
+        "devServerTarget": "nnwml-self-driving-car:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "nnwml-self-driving-car:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/nnwml/self-driving-car-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["nnwml-self-driving-car"]
+}
