@@ -22,7 +22,8 @@ export default class Car {
     /* implement some friction */
     this.maxSpeed = 3; /* diagonally it's buggy => define an angle */
     this.friction = 0.05;
-    this.angle = 0; /* works according to unit circle rotated 90deg counter clockwise */
+    this.angle = 0; /* works according to unit circle rotated 90deg counter clockwise
+    as value of 0 is upwards*/
 
     this.controls = new Controls();
   }
@@ -72,14 +73,16 @@ export default class Car {
   /* now call animate() method in main.ts */
 
   draw(ctx: CanvasRenderingContext2D) {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(-this.angle); /* next remove this.x, this.y
+    from ctx.rect( -this.width,height) */
+
     ctx.beginPath();
-    ctx.rect(
-      this.x - this.width / 2,
-      this.y - this.height / 2,
-      this.width,
-      this.height
-    );
+    ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
     ctx.fill(); /* context fills the rectangle with the rect defined values */
+
+    ctx.restore(); /* avoids infinite series of translations and rotations */
   }
 }
 
