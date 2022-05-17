@@ -18,7 +18,7 @@ export default class Car {
       this.width,
       this.height
     );
-    ctx.fill();
+    ctx.fill(); /* context fills the rectangle with the rect defined values */
   }
 }
 
