@@ -29,7 +29,11 @@ export default class Car {
   }
 
   // write an update method using the Controls class values and import Controls class in main.ts
-  update() {
+  update(): void {
+    this.move();
+  }
+
+  private move(): void {
     /* -speed indicates that car is going backwards since its a 2d x,y dimension */
     const maxSpeedReverse: number = (-1 * this.maxSpeed) / 2;
     if (this.controls.forward) {
@@ -57,14 +61,12 @@ export default class Car {
     if (Math.abs(this.speed) < this.friction) {
       this.speed = 0;
     }
-
     /**
      * to fix => car spinning in place reversing
      * and reversing the other way. left <-> right flipped
      * +ve speed is forward, -ve speed is backwards
      * Box2D is a great library for physics and collision detection
      * */
-
     if (this.speed !== 0) {
       const flip = this.speed > 0 ? 1 : -1;
 
@@ -76,7 +78,6 @@ export default class Car {
         this.angle -= 0.03 * flip;
       }
     }
-
     // based on unit circle & scale it with value of speed
     this.x -= Math.sin(this.angle) * this.speed;
     this.y -= Math.cos(this.angle) * this.speed;
