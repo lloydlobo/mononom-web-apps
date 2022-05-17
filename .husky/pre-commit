@@ -1,5 +1,10 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npm test
+# npm test
+
+# test
+npx nx affected --target=test --parallel=true --verbose=true
+
+# lint
 npx nx affected --target=lint --parallel=true --verbose=true
