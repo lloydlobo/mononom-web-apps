@@ -21,6 +21,12 @@
       "options": {
         "lintFilePatterns": ["apps/nnwml/self-driving-car-e2e/**/*.{js,ts}"]
       }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular"
+      }
     }
   },
   "tags": [],
