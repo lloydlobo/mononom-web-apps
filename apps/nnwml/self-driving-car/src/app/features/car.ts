@@ -2,6 +2,7 @@ import Controls from './controls';
 
 export default class Car {
   acceleration: number;
+  angle: number;
   controls: Controls;
   friction: number;
   height: number;
@@ -19,8 +20,9 @@ export default class Car {
     this.speed = 0;
     this.acceleration = 0.2;
     /* implement some friction */
-    this.maxSpeed = 3;
+    this.maxSpeed = 3; /* diagonally it's buggy => define an angle */
     this.friction = 0.05;
+    this.angle = 0; /* works according to unit circle rotated 90deg counter clockwise */
 
     this.controls = new Controls();
   }
@@ -54,6 +56,15 @@ export default class Car {
     if (Math.abs(this.speed) < this.friction) {
       this.speed = 0;
     }
+
+    // left right controls
+    if (this.controls.left) {
+      this.angle += 0.03;
+    }
+    if (this.controls.right) {
+      this.angle -= 0.03;
+    }
+
     /* setting 0 speed => at rest */
     this.y -= this.speed;
   }
