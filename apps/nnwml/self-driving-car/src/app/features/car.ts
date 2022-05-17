@@ -58,16 +58,29 @@ export default class Car {
       this.speed = 0;
     }
 
-    // left right controls
-    if (this.controls.left) {
-      this.angle += 0.03;
-    }
-    if (this.controls.right) {
-      this.angle -= 0.03;
+    /**
+     * to fix => car spinning in place reversing
+     * and reversing the other way. left <-> right flipped
+     * +ve speed is forward, -ve speed is backwards
+     * Box2D is a great library for physics and collision detection
+     * */
+
+    if (this.speed !== 0) {
+      const flip = this.speed > 0 ? 1 : -1;
+
+      // left right controls
+      if (this.controls.left) {
+        this.angle += 0.03 * flip;
+      }
+      if (this.controls.right) {
+        this.angle -= 0.03 * flip;
+      }
     }
 
-    /* setting 0 speed => at rest */
-    this.y -= this.speed;
+    // based on unit circle & scale it with value of speed
+    this.x -= Math.sin(this.angle) * this.speed;
+    this.y -= Math.cos(this.angle) * this.speed;
+    // this.y -= this.speed; /* don't need this anymore after sin, cos */
   }
 
   /* now call animate() method in main.ts */
