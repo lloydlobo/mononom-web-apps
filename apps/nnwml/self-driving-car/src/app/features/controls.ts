@@ -13,12 +13,6 @@ export default class Controls {
   }
 
   private addKeyboardListeners() {
-    /**
-     * if it was a document.onkeydown = function(event), the `this` in
-     * the scope would refer to the function here and
-     * not the `this` in Controls class
-     * */
-
     // add event listeners for keydown
     document.onkeydown = (event) => {
       switch (event.key) {
@@ -66,3 +60,10 @@ export default class Controls {
     };
   }
 }
+
+/**
+ * In private addKeyboardListeners() method, we have added event listeners for keydown and keyup.
+ * if it was a document.onkeydown = function(event), the `this` in
+ * the scope would refer to the function here and
+ * not the `this` in Controls class
+ * */

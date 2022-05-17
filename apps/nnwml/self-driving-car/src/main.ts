@@ -3,7 +3,6 @@ import Car from './app/features/car';
 
 const canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
 
-canvas.height = window.innerHeight; /* makes it full height */
 canvas.width = 200;
 
 // a drawing context is a way to draw on a canvas
@@ -19,8 +18,9 @@ animate();
 
 function animate() {
   car.update();
+  /* transferred from global:makes it full height */
+  canvas.height = window.innerHeight;
   car.draw(ctx);
-  /* calls the animate() method again and again
-  gives the illusion of movement of the car */
+  /* calls the animate() method again and again gives the illusion of movement of the car */
   requestAnimationFrame(animate);
 }

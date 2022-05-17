@@ -32,7 +32,7 @@ export default class Car {
 
   /* now call animate() method in main.ts */
 
-  draw(ctx) {
+  draw(ctx: CanvasRenderingContext2D) {
     ctx.beginPath();
     ctx.rect(
       this.x - this.width / 2,
