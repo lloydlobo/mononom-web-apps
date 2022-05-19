@@ -12,7 +12,7 @@ export class Road {
     this.laneCount = laneCount;
 
     this.left = x - width / 2;
-    this.right = x - width / 2;
+    this.right = x + width / 2;
 
     // want the road to go infinitely downwards
     const infinity = 1000000; // using JS infinity may cause problems when drawing

@@ -1,4 +1,5 @@
 import './app/app.element.ts';
+import './app/features/road';
 import { Car, Road } from './app';
 export const canvas = document.getElementById('myCanvas') as HTMLCanvasElement; // object
 canvas.width = 200;
