@@ -14,5 +14,3 @@
 export function lerp(A: number, B: number, t: number): number {
   return (A + (B - A) * t) as number;
 }
-
-console.log(lerp(-1, 1, -0.5));
