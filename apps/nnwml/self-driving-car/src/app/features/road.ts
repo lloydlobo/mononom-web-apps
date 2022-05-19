@@ -14,8 +14,7 @@ export class Road {
     this.left = (x as number) - (width as number) / 2;
     this.right = (x as number) + (width as number) / 2;
 
-    // want the road to go infinitely downwards
-    const infinity = 1000000; // using JS infinity may cause problems when drawing
+    const infinity = 1000000; // using JS infinity may cause problems when drawing // want the road to go infinitely downwards
     this.top = -infinity as number;
     this.bottom = infinity as number;
   }
@@ -24,14 +23,14 @@ export class Road {
     ctx.lineWidth = 5 as number;
     ctx.strokeStyle = 'white' as string | CanvasGradient | CanvasPattern;
 
-    for (let i = 0; i < this.laneCount; i += 1) {
-      /**
-       * LINEAR INTERPOLATION or lerp getting values from left to right depending on a percentage i.e. is i/laneCount => * we need to find the x coordinate of the lane lines to draw
-       * @date 5/19/2022 - 12:47:11 PM
-       *
-       * @type {number}
-       */
-      const x: number = lerp(this.left, this.right, i / this.laneCount);
+    for (let i = 0; i < ((this.laneCount + 1) as number); i += 1) {
+      /** LINEAR INTERPOLATION or lerp getting values from left to right depending on a percentage i.e. is i/laneCount => * we need to find the x coordinate of the lane lines to draw */
+      const x: number = lerp(
+        this.left,
+        this.right,
+        (i / this.laneCount) as number
+      );
+
       ctx.beginPath();
       ctx.moveTo(x, this.top);
       ctx.lineTo(x, this.bottom);
