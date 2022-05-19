@@ -23,26 +23,21 @@ export class Road {
   draw(ctx: CanvasRenderingContext2D): void {
     ctx.lineWidth = 5 as number;
     ctx.strokeStyle = 'white' as string | CanvasGradient | CanvasPattern;
-    // add multiple lanes with a for loop
+
     for (let i = 0; i < this.laneCount; i += 1) {
-      // we need to find the x coordinate of the lane lines to draw
-      /* use LINEAR INTERPOLATION or lerp
-      getting values from left to right depending on a percentage
-      i.e. is i/laneCount */
-      const x = lerp(this.left, this.right, i / this.laneCount);
-    }
-    // draw line on left side of road
-    ctx.beginPath();
-    ctx.moveTo(this.left, this.top);
-    ctx.lineTo(this.left, this.bottom);
-    ctx.stroke();
-    // draw line on right side of road
-    ctx.beginPath();
-    ctx.moveTo(this.right, this.top);
-    ctx.lineTo(this.right, this.bottom);
-    ctx.stroke();
-  } /* after this add in main.ts
-  const road = new Road(canvas.width/2, canvas.width) */
+      /**
+       * LINEAR INTERPOLATION or lerp getting values from left to right depending on a percentage i.e. is i/laneCount => * we need to find the x coordinate of the lane lines to draw
+       * @date 5/19/2022 - 12:47:11 PM
+       *
+       * @type {number}
+       */
+      const x: number = lerp(this.left, this.right, i / this.laneCount);
+      ctx.beginPath();
+      ctx.moveTo(x, this.top);
+      ctx.lineTo(x, this.bottom);
+      ctx.stroke(); /* after this add in main.ts => const road = new Road(canvas.width/2, canvas.width) */
+    } // add multiple lanes with a for loop
+  }
 }
 
 /**
