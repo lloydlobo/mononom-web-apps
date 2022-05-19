@@ -21,6 +21,22 @@ export class Road {
     this.bottom = infinity as number;
   }
 
+  /**
+   * Get Lane Center - regardless of lane count, the car auto adjusts to the center of the lane
+   * @date 5/19/2022 - 4:15:00 PM
+   *
+   * @param {number} laneIndex
+   * @returns {number}
+   */
+  getLaneCenter(laneIndex: number): number {
+    const laneWidth: number = this.width / this.laneCount;
+    const laneCenter: number =
+      this.left +
+      laneWidth / 2 +
+      Math.min(laneIndex, this.laneCount) * laneWidth;
+    return laneCenter;
+  }
+
   draw(ctx: CanvasRenderingContext2D): void {
     ctx.lineWidth = 5 as number;
     ctx.strokeStyle = 'white' as string | CanvasGradient | CanvasPattern;
@@ -32,7 +48,11 @@ export class Road {
         this.right,
         (i / this.laneCount) as number
       );
-
+      if (i > 0 && i < this.laneCount) {
+        ctx.setLineDash([20, 20]); /* break of 20px and dash of 20px */
+      } else {
+        ctx.setLineDash([]); /* no dash => for outer borders */
+      }
       ctx.beginPath();
       ctx.moveTo(x, this.top);
       ctx.lineTo(x, this.bottom);
