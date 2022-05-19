@@ -32,7 +32,11 @@ export class Road {
         this.right,
         (i / this.laneCount) as number
       );
-
+      if (i > 0 && i < this.laneCount) {
+        ctx.setLineDash([20, 20]); /* break of 20px and dash of 20px */
+      } else {
+        ctx.setLineDash([]); /* no dash => for outer borders */
+      }
       ctx.beginPath();
       ctx.moveTo(x, this.top);
       ctx.lineTo(x, this.bottom);
