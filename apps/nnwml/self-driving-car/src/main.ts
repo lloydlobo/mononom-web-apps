@@ -33,10 +33,16 @@ export function animate() {
   car.update();
   /* transferred from global:makes it full height */
   canvas.height = window.innerHeight;
+  // illusion of a camera above the car
+  ctx.save();
+  const carPositionNearBottom = -1 * car.y + (canvas.height * 70) / 100; // -car.y is top of the screen
+  ctx.translate(0, carPositionNearBottom); // moves car down from top of screen to see what's ahead of the car
+
   road.draw(ctx);
   car.draw(ctx);
-  /* calls the animate() method again and again gives the illusion of movement of the car */
-  requestAnimationFrame(animate);
+
+  ctx.restore(); // restores the canvas to its previous state from save()
+  requestAnimationFrame(animate); // calls the animate() method again and again gives the illusion of movement of the car
 }
 
 // ============================================================================
@@ -53,6 +59,15 @@ export function animate() {
   */
 
 // ----------------------------------------------------------------------------
+
+/**
+ * 20220519184813
+ *
+ * ctx.translate(0, -car.y); // moves car down from top of screen
+ *
+ * const carPositionNearBottom = -1 * car.y + (canvas.height * 70) / 100; // -car.y is top of the screen
+ * console.log(carPositionNearBottom); // forward goes from 0 to 100000, backward goes from 0 to -100000
+ */
 
 /**
  * 20220519182625
