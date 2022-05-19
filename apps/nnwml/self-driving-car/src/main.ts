@@ -6,7 +6,10 @@ canvas.width = 200;
 
 // a drawing context is a way to draw on a canvas
 export const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
-const road = new Road((canvas.width / 2) as number, canvas.width as number);
+const road = new Road(
+  (canvas.width / 2) as number,
+  (canvas.width * 0.9) as number
+);
 // car dimensions in pixels (x,y,width,height) 0,0 is top left corner
 export const car: Car = new Car(100, 100, 30, 50); /* now define the Car */
 
