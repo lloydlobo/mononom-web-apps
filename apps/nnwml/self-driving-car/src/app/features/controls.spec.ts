@@ -7,12 +7,11 @@ describe('Controls', () => {
   });
 });
 
+let controls: Controls;
 describe('Controls', () => {
-  let controls: Controls;
-
   beforeEach(() => {
-    const controls = new Controls();
-    return { controls };
+    controls = new Controls();
+    return controls;
   });
 
   it('should have a forward value of false', () => {
