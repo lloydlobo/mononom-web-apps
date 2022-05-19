@@ -8,6 +8,7 @@ export class Road {
   top: number;
   width: number;
   x: number;
+  borders: { x: number; y: number }[][];
   constructor(x: number, width: number, laneCount = 3 as number) {
     this.x = x;
     this.width = width;
@@ -19,6 +20,17 @@ export class Road {
     const infinity = 1000000; // using JS infinity may cause problems when drawing // want the road to go infinitely downwards
     this.top = -infinity as number;
     this.bottom = infinity as number;
+
+    /* add collision detection - highways or complicated situations */
+    const topLeft = { x: this.left, y: this.top };
+    const topRight = { x: this.right, y: this.top };
+    const bottomLeft = { x: this.left, y: this.bottom };
+    const bottomRight = { x: this.right, y: this.bottom };
+
+    this.borders = [
+      [topLeft, bottomLeft],
+      [topRight, bottomRight],
+    ] as { x: number; y: number }[][];
   }
 
   /**
