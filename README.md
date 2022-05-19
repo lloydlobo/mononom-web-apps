@@ -1,12 +1,26 @@
-# MononomWebApps
+# Mononom Web Apps
 
 This project was generated using [Nx](https://nx.dev).
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
+## Best Practices
 
-🔎 **Smart, Fast and Extensible Build System**
+According to State Of DevOps Report 2016:
 
-## Adding capabilities to your workspace
+> “We have found that having branches or forks with very short lifetimes (less than a day) before being merged into trunk, and less than three active branches in total, are important aspects of continuous delivery, and all contribute to higher performance. So does merging code into trunk or master on a daily basis.”
+
+Other [sources](https://puppet.com/resources/report/state-of-devops-report/)
+
+### TBD [^1]
+
+> Trunk Based Development (TBD) and continuous integration improves software delivery performance.
+
+[!](https://miro.medium.com/max/1400/1*9qBAimfK7VZ1IG-2-puMUg.png)
+
+## References
+
+[^1]: <https://itnext.io/how-feature-branches-and-pull-requests-work-against-best-practice-a13a85a016ef>
+
+<!-- ## Adding capabilities to your workspace
 
 Nx supports many plugins which add capabilities for developing different types of applications and different tools.
 
@@ -47,7 +61,7 @@ Libraries are shareable across libraries and applications. They can be imported 
 
 ## Development server
 
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+Run `nx serve my-app` for a dev server. Navigate to <http://localhost:4200/>. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
@@ -87,4 +101,4 @@ Nx Cloud pairs with Nx in order to enable you to build and test code more rapidl
 
 Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
 
-Visit [Nx Cloud](https://nx.app/) to learn more.
+Visit [Nx Cloud](https://nx.app/) to learn more. -->
