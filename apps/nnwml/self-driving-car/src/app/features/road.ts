@@ -21,6 +21,21 @@ export class Road {
     this.bottom = infinity as number;
   }
 
+  /**
+   * Description placeholder
+   * @date 5/19/2022 - 4:15:00 PM
+   *
+   * @param {number} laneIndex
+   * @returns {number}
+   */
+  getLaneCenter(laneIndex: number): number {
+    const lineWidth = this.width / this.laneCount;
+    return (
+      (this.left as number) +
+      ((lineWidth / 2) as number) +
+      ((laneIndex * lineWidth) as number)
+    );
+  }
   draw(ctx: CanvasRenderingContext2D): void {
     ctx.lineWidth = 5 as number;
     ctx.strokeStyle = 'white' as string | CanvasGradient | CanvasPattern;
