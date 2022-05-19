@@ -1,4 +1,5 @@
-import Controls from './controls';
+import { Car } from './car';
+import { Controls } from './controls';
 
 describe('Controls', () => {
   it('should create an instance', () => {
@@ -6,11 +7,11 @@ describe('Controls', () => {
   });
 });
 
+let controls: Controls;
 describe('Controls', () => {
-  let controls: Controls;
-
   beforeEach(() => {
     controls = new Controls();
+    return controls;
   });
 
   it('should have a forward value of false', () => {
@@ -40,8 +41,6 @@ describe('Controls', () => {
  ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝
  *
  */
-
-import Car from './car';
 
 describe('Car Controls', () => {
   const controls = new Controls();

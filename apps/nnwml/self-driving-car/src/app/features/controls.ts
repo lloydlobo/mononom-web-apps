@@ -1,4 +1,4 @@
-export default class Controls {
+export class Controls {
   forward: boolean;
   reverse: boolean;
   right: boolean;

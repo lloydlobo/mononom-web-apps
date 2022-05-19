@@ -1,6 +1,4 @@
-// import { animate, car, ctx, canvas } from './main';
-import Car from './app/features/car';
-import Controls from './app/features/controls';
+import { Car, Controls } from './app';
 
 describe('Car Controls', () => {
   const controls = new Controls();

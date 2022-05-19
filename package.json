@@ -33,6 +33,7 @@
     "eslint-plugin-cypress": "^2.10.3",
     "husky": "^7.0.0",
     "jest": "27.5.1",
+    "node-notifier": "^10.0.1",
     "nx": "14.1.6",
     "nx-stylelint": "^13.3.0",
     "prettier": "^2.5.1",
