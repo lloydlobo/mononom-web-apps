@@ -29,12 +29,12 @@ export class Road {
    * @returns {number}
    */
   getLaneCenter(laneIndex: number): number {
-    const laneWidth = this.width / this.laneCount;
-    return (
-      (this.left as number) +
-      ((laneWidth / 2) as number) +
-      ((laneIndex * laneWidth) as number)
-    );
+    const laneWidth: number = this.width / this.laneCount;
+    const laneCenter: number =
+      this.left +
+      laneWidth / 2 +
+      Math.min(laneIndex, this.laneCount) * laneWidth;
+    return laneCenter;
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
