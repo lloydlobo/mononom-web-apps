@@ -1,9 +1,28 @@
 import { Road } from './road';
+import { canvas } from './../../main';
+
+jest.mock('../../main', () => ({
+  canvas: {
+    width: 200,
+    height: 200,
+  },
+}));
+
+let road;
 
 describe('Road', () => {
-  it('should create an instance', () => {
-    expect(new Road()).toBeTruthy();
+  beforeEach(() => {
+    road = new Road(canvas.width / 2, canvas.width);
+    return { canvas, road };
   });
+
+  it('should create an instance', () => {
+    expect(new Road(canvas.width / 2, canvas.width)).toBeTruthy();
+  });
+
+  // it('should have a width', () => {
+  //   expect(road.width).toBe(canvas.width);
+  // });
 });
 
 // import notifier = require('node-notifier');

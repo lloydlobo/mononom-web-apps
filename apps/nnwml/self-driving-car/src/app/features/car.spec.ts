@@ -1,4 +1,4 @@
-import Car from './car';
+import { Car } from './car';
 
 describe('Car', () => {
   // const car = new Car(100, 100, 30, 50);

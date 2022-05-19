@@ -1,6 +1,6 @@
-import Controls from './controls';
+import { Controls } from './controls';
 
-export default class Car {
+export class Car {
   acceleration: number;
   angle: number;
   controls: Controls;

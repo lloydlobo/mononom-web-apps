@@ -1,4 +1,5 @@
 import './app.element.scss';
+import { Car, Road, Controls } from './features';
 
 export class AppElement extends HTMLElement {
   public static observedAttributes = [];
