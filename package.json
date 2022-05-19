@@ -22,7 +22,7 @@
     "@nrwl/web": "^14.1.6",
     "@nrwl/workspace": "14.1.6",
     "@nx-clean/plugin-core": "^1.7.0",
-    "@types/jest": "27.4.1",
+    "@types/jest": "^27.4.1",
     "@types/node": "16.11.7",
     "@typescript-eslint/eslint-plugin": "~5.18.0",
     "@typescript-eslint/parser": "~5.18.0",
