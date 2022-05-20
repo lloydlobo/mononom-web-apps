@@ -6,7 +6,7 @@ describe('Car', () => {
 
   beforeEach(() => {
     car = new Car(100, 100, 30, 50);
-    car.update();
+    car.update([]);
   });
   it('should create an instance', () => {
     expect(new Car(100, 100, 30, 50)).toBeTruthy();
@@ -30,7 +30,7 @@ describe('Car', () => {
 
   beforeEach(() => {
     car = new Car(100, 100, 30, 50);
-    car.update();
+    car.update([]);
   });
 
   it('should have a maxSpeed of 3', () => {

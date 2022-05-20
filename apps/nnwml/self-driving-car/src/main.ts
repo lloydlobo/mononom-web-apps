@@ -1,5 +1,6 @@
 import './app/app.element.ts';
 import './app/features/road';
+import './app/features/sensor';
 import { Car, Road } from './app';
 
 /**
@@ -30,12 +31,12 @@ car.draw(ctx); /* draw car on the canvas in the DOM */
 animate();
 
 export function animate(): void {
-  car.update();
+  car.update(road.borders);
   /* transferred from global:makes it full height */
   canvas.height = window.innerHeight;
   // illusion of a camera above the car
   ctx.save();
-  const carPositionNearBottom = -1 * car.y + (canvas.height * 70) / 100; // -car.y is top of the screen
+  const carPositionNearBottom = -1 * car.y + (canvas.height * 61.8) / 100; // -car.y is top of the screen
   ctx.translate(0, carPositionNearBottom); // moves car down from top of screen to see what's ahead of the car
 
   road.draw(ctx);

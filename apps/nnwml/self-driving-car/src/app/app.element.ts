@@ -1,5 +1,6 @@
 import './app.element.scss';
 import './features/road';
+import './features/sensor';
 // import { Car, Road, Controls } from './features';
 
 export class AppElement extends HTMLElement {

@@ -23,7 +23,7 @@ describe('Car Controls', () => {
 
   beforeEach(() => {
     car = new Car(100, 100, 30, 50);
-    car.update();
+    car.update([]);
   });
 
   it('should have a speed of 0', () => {
@@ -53,7 +53,7 @@ describe('Car Controls', () => {
 
   beforeEach(() => {
     car = new Car(100, 100, 30, 50);
-    car.update();
+    car.update([]);
   });
 
   it('controls car forward, reverse, left, and right', () => {

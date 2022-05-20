@@ -1,4 +1,5 @@
 import { Controls } from './controls';
+import { Sensor } from './sensor';
 
 export class Car {
   acceleration: number;
@@ -11,6 +12,7 @@ export class Car {
   width: number;
   x: number;
   y: number;
+  sensor: Sensor;
   constructor(x: number, y: number, width: number, height: number) {
     this.x = x;
     this.y = y;
@@ -19,18 +21,21 @@ export class Car {
 
     this.speed = 0;
     this.acceleration = 0.2;
-    /* implement some friction */
     this.maxSpeed = 3; /* diagonally it's buggy => define an angle */
     this.friction = 0.05;
     this.angle = 0; /* works according to unit circle rotated 90deg counter clockwise
     as value of 0 is upwards*/
 
+    this.sensor = new Sensor(this);
+    // define this.rays as an array of sensor.rays.length
+    this.sensor.rays = [];
     this.controls = new Controls();
   }
 
   // write an update method using the Controls class values and import Controls class in main.ts
-  update(): void {
+  update(roadBorders) {
     this.move();
+    this.sensor.update(roadBorders);
   }
 
   private move(): void {
@@ -40,8 +45,7 @@ export class Car {
       this.speed += this.acceleration; /* // this.y -= 5; */
     }
     if (this.controls.reverse) {
-      // this.y += 5;
-      this.speed -= this.acceleration;
+      this.speed -= this.acceleration; // this.y += 5;
     }
 
     if (this.speed > this.maxSpeed) {
@@ -62,15 +66,11 @@ export class Car {
       this.speed = 0;
     }
     /**
-     * to fix => car spinning in place reversing
-     * and reversing the other way. left <-> right flipped
-     * +ve speed is forward, -ve speed is backwards
+     * to fix => car spinning in place reversing and reversing the other way. left <-> right flipped * +ve speed is forward, -ve speed is backwards
      * Box2D is a great library for physics and collision detection
      * */
     if (this.speed !== 0) {
-      const flip = this.speed > 0 ? 1 : -1;
-
-      // left right controls
+      const flip: 1 | -1 = ((this.speed > 0) as boolean) ? 1 : -1;
       if (this.controls.left) {
         this.angle += 0.03 * flip;
       }
@@ -83,7 +83,6 @@ export class Car {
     this.y -= Math.cos(this.angle) * this.speed;
     // this.y -= this.speed; /* don't need this anymore after sin, cos */
   }
-
   /* now call animate() method in main.ts */
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -97,6 +96,12 @@ export class Car {
     ctx.fill(); /* context fills the rectangle with the rect defined values */
 
     ctx.restore(); /* avoids infinite series of translations and rotations */
+
+    try {
+      this.sensor.draw(ctx);
+    } catch (error) {
+      console.log(error);
+    } // TypeError: this.rays[r] is undefined
   }
 }
 

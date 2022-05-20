@@ -43,21 +43,15 @@ describe('Controls', () => {
  */
 
 describe('Car Controls', () => {
-  const controls = new Controls();
+  // const controls = new Controls();
   let car: Car;
 
   beforeEach(() => {
     car = new Car(100, 100, 30, 50);
-    car.update();
+    car.update([]);
   });
 
   it('should have a speed of 0', () => {
     expect(car.speed).toBe(0);
-  });
-
-  it('control car forward', () => {
-    controls.forward = true;
-    car.update();
-    expect(car.acceleration).toBe(0.2);
   });
 });
