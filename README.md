@@ -16,6 +16,18 @@ Other [sources](https://puppet.com/resources/report/state-of-devops-report/)
 
 [!](https://miro.medium.com/max/1400/1*9qBAimfK7VZ1IG-2-puMUg.png)
 
+## Development Environment
+
+### Serve localhost with [ngrok](https://ngrok.com/) online
+
+```bash
+ngrok http 4200 --host-header=rewrite
+```
+
+[Source](https://stackoverflow.com/questions/45425721/invalid-host-header-when-ngrok-tries-to-connect-to-react-dev-server)
+
+---
+
 ## References
 
 [^1]: <https://itnext.io/how-feature-branches-and-pull-requests-work-against-best-practice-a13a85a016ef>
