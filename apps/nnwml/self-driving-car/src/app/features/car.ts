@@ -1,10 +1,8 @@
 import { Controls } from './controls';
 import { Sensor, RoadBordersType } from './sensor';
-import { ctx } from './../../main';
+import { polysIntersect } from '../utils';
 
-type PointsType = { x: number; y: number }[];
-// type PolygonType = { x: number; y: number }[];
-
+export type PointsType = { x: number; y: number }[];
 /**
  * Car Class
  * @date 5/20/2022 - 9:04:45 PM
@@ -27,6 +25,7 @@ export class Car {
   polygon: PointsType;
   sensor: Sensor;
   speed: number;
+  damaged: boolean;
 
   constructor(x: number, y: number, width: number, height: number) {
     this.x = x;
@@ -39,6 +38,7 @@ export class Car {
     this.maxSpeed = 3; /* diagonally it's buggy => define an angle */
     this.friction = 0.05;
     this.angle = 0;
+    this.damaged = false;
 
     this.sensor = new Sensor(this);
     this.controls = new Controls();
@@ -49,9 +49,18 @@ export class Car {
   // write an update method using the Controls class values and import Controls class in main.ts
   update(roadBorders: RoadBordersType): void {
     this.move() as void;
-
     this.polygon = this.createPolygon();
+    this.damaged = this.assessDamage(roadBorders);
     this.sensor.update(roadBorders) as void;
+  }
+
+  private assessDamage(roadBorders: RoadBordersType): boolean {
+    for (let i = 0; i < roadBorders.length; i++) {
+      if (polysIntersect(this.polygon, roadBorders[i])) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private createPolygon() {
@@ -118,18 +127,12 @@ export class Car {
     this.y -= Math.cos(this.angle) * this.speed;
   }
 
-  // draw(ctx: CanvasRenderingContext2D): void {
-  //   ctx.beginPath() as void;
-  //   ctx.moveTo(this.polygon[0].x, this.polygon[0].y) as void;
-  //   for (let i = 1; i < this.polygon.length; i += 1) {
-  //     ctx.lineTo(this.polygon[i].x, this.polygon[i].y) as void;
-  //   }
-  //   ctx.fill() as void;
-
-  //   this.sensor.draw(ctx);
-  // }
-
   draw(ctx: CanvasRenderingContext2D) {
+    if (this.damaged) {
+      ctx.fillStyle = 'grey';
+    } else {
+      ctx.fillStyle = 'black';
+    }
     ctx.beginPath();
     ctx.moveTo(this.polygon[0].x, this.polygon[0].y);
 
@@ -140,21 +143,6 @@ export class Car {
 
     this.sensor.draw(ctx);
   }
-
-  // draw(ctx: CanvasRenderingContext2D) {
-  //   ctx.save();
-  //   ctx.translate(this.x, this.y);
-  //   ctx.rotate(-this.angle); /* next remove this.x, this.y
-  // from ctx.rect( -this.width,height) */
-
-  //   ctx.beginPath();
-  //   ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
-  //   ctx.fill(); /* context fills the rectangle with the rect defined values */
-
-  //   ctx.restore(); /* avoids infinite series of translations and rotations */
-
-  //   this.sensor.draw(ctx);
-  // }
 }
 
 // define as custom element
