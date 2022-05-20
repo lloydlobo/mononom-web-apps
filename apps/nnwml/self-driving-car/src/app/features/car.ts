@@ -48,9 +48,11 @@ export class Car {
   // type RoadBordersType = {}
   // write an update method using the Controls class values and import Controls class in main.ts
   update(roadBorders: RoadBordersType): void {
-    this.move() as void;
-    this.polygon = this.createPolygon();
-    this.damaged = this.assessDamage(roadBorders);
+    if (!this.damaged) {
+      this.move() as void;
+      this.polygon = this.createPolygon();
+      this.damaged = this.assessDamage(roadBorders);
+    }
     this.sensor.update(roadBorders) as void;
   }
 
