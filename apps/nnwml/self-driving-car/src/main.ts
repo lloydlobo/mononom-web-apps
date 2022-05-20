@@ -29,7 +29,7 @@ car.draw(ctx); /* draw car on the canvas in the DOM */
 
 animate();
 
-export function animate() {
+export function animate(): void {
   car.update();
   /* transferred from global:makes it full height */
   canvas.height = window.innerHeight;
