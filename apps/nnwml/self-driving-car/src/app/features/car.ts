@@ -1,8 +1,9 @@
 import { Controls } from './controls';
 import { Sensor, RoadBordersType } from './sensor';
+import { ctx } from './../../main';
 
 type PointsType = { x: number; y: number }[];
-type PolygonType = { x: number; y: number }[];
+// type PolygonType = { x: number; y: number }[];
 
 /**
  * Car Class
@@ -23,7 +24,7 @@ export class Car {
   controls: Controls;
   friction: number;
   maxSpeed: number;
-  polygon: () => { x: number; y: number }[];
+  polygon: PointsType;
   sensor: Sensor;
   speed: number;
 
@@ -37,14 +38,11 @@ export class Car {
     this.acceleration = 0.2;
     this.maxSpeed = 3; /* diagonally it's buggy => define an angle */
     this.friction = 0.05;
-    this.angle = 0; /* works according to unit circle rotated 90deg counter clockwise
-    as value of 0 is upwards*/
+    this.angle = 0;
 
     this.sensor = new Sensor(this);
-    // define this.rays as an array of sensor.rays.length
-    this.sensor.rays = [];
     this.controls = new Controls();
-    this.polygon = this.createPolygon as () => PolygonType;
+    // this.sensor.rays = [];
   }
 
   // type RoadBordersType = {}
@@ -52,14 +50,14 @@ export class Car {
   update(roadBorders: RoadBordersType): void {
     this.move() as void;
 
-    this.polygon = this.createPolygon;
+    this.polygon = this.createPolygon();
     this.sensor.update(roadBorders) as void;
   }
 
   private createPolygon() {
     const points: PointsType = [];
-    const rad = Math.hypot(this.width, this.height) / 2;
-    const alpha = Math.atan2(this.width, this.height);
+    const rad: number = Math.hypot(this.width, this.height) / 2;
+    const alpha: number = Math.atan2(this.width, this.height);
     points.push({
       x: this.x - Math.sin(this.angle - alpha) * rad,
       y: this.y - Math.cos(this.angle - alpha) * rad,
@@ -76,10 +74,10 @@ export class Car {
       x: this.x - Math.sin(Math.PI + this.angle + alpha) * rad,
       y: this.y - Math.cos(Math.PI + this.angle + alpha) * rad,
     });
-    return points;
+    return points as { x: number; y: number }[];
   }
 
-  private move() {
+  private move(): void {
     if (this.controls.forward) {
       this.speed += this.acceleration;
     }
@@ -132,19 +130,31 @@ export class Car {
   // }
 
   draw(ctx: CanvasRenderingContext2D) {
-    ctx.save();
-    ctx.translate(this.x, this.y);
-    ctx.rotate(-this.angle); /* next remove this.x, this.y
-  from ctx.rect( -this.width,height) */
-
     ctx.beginPath();
-    ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
-    ctx.fill(); /* context fills the rectangle with the rect defined values */
+    ctx.moveTo(this.polygon[0].x, this.polygon[0].y);
 
-    ctx.restore(); /* avoids infinite series of translations and rotations */
+    for (let i = 1; i < this.polygon.length; i += 1) {
+      ctx.lineTo(this.polygon[i].x, this.polygon[i].y);
+    }
+    ctx.fill();
 
     this.sensor.draw(ctx);
   }
+
+  // draw(ctx: CanvasRenderingContext2D) {
+  //   ctx.save();
+  //   ctx.translate(this.x, this.y);
+  //   ctx.rotate(-this.angle); /* next remove this.x, this.y
+  // from ctx.rect( -this.width,height) */
+
+  //   ctx.beginPath();
+  //   ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
+  //   ctx.fill(); /* context fills the rectangle with the rect defined values */
+
+  //   ctx.restore(); /* avoids infinite series of translations and rotations */
+
+  //   this.sensor.draw(ctx);
+  // }
 }
 
 // define as custom element
