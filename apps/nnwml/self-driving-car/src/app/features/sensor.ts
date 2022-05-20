@@ -1,17 +1,21 @@
 // import { ctx } from '../../main';
 import { getIntersection, lerp } from '../utils';
-// import { Car } from './car';
+import { Car } from './car';
+export type RoadBordersType = { x: number; y: number }[][];
+
+type RayType = { x: number; y: number }[];
+type RaysType = { x: number; y: number }[][];
+type ReadingsType = { x: number; y: number }[];
+type TouchType = { x: number; y: number; offset: number };
 
 export class Sensor {
   rayCount: number;
   rayLength: number;
   raySpread: number;
-  // rays: { y: number; }[][];
-  rays: { x: number; y: number }[][];
-  car;
-  readings;
-  // readings: { x: number; y: number }[];
-  constructor(car) {
+  rays: RaysType;
+  car: Car;
+  readings: ReadingsType;
+  constructor(car: Car) {
     this.car = car;
     this.rayCount = 5;
     this.rayLength = 100;
@@ -21,9 +25,9 @@ export class Sensor {
     this.readings = [];
   }
 
-  update(roadBorders): void {
-    this.castRays();
-    this.readings = [];
+  update(roadBorders: RoadBordersType): void {
+    this.castRays() as void;
+    this.readings = [] as ReadingsType;
     for (let i = 0; i < this.rays.length; i++) {
       // const ray = this.rays[i];
       // const closest = this.getClosestIntersection(ray, roadBorders);
@@ -32,15 +36,16 @@ export class Sensor {
     }
   }
 
-  private getReading(ray, roadBorders) {
-    const touches = [];
+  private getReading(ray: RayType, roadBorders: RoadBordersType): TouchType {
+    const touches: TouchType[] = [];
 
     for (let i = 0; i < roadBorders.length; i++) {
-      const touch: {
-        x: number;
-        y: number;
-        offset: number;
-      } = getIntersection(ray[0], ray[1], roadBorders[i][0], roadBorders[i][1]);
+      const touch: TouchType = getIntersection(
+        ray[0],
+        ray[1],
+        roadBorders[i][0],
+        roadBorders[i][1]
+      );
 
       if (touch) {
         touches.push(touch);
@@ -50,10 +55,11 @@ export class Sensor {
     if (touches.length === 0) {
       return null;
     } else {
-      const offsets = touches.map((element) => element.offset);
-      // we need to know the minimum or nearest offset
-      const minOffset = Math.min(...offsets); // Math.min() doesn't take an array as an argument so we spread it out with ... (spread operator)
-      return touches.find((element) => element.offset === minOffset); // find() returns the first element that matches the condition
+      const offsets: number[] = touches.map((element) => element.offset);
+      const minOffset: number = Math.min(...offsets); // Math.min() doesn't take an array as an argument so we spread it out with ... (spread operator)
+      return touches.find(
+        (element) => element.offset === minOffset
+      ) as TouchType; // find() returns the first element that matches the condition
     } // returns also an offset: 0.9 e.g. => apart from x, y
   }
 

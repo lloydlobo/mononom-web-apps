@@ -1,18 +1,32 @@
 import { Controls } from './controls';
-import { Sensor } from './sensor';
+import { Sensor, RoadBordersType } from './sensor';
 
+type PointsType = { x: number; y: number }[];
+type PolygonType = { x: number; y: number }[];
+
+/**
+ * Car Class
+ * @date 5/20/2022 - 9:04:45 PM
+ *
+ * @export
+ * @class Car
+ * @typedef {Car}
+ */
 export class Car {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+
   acceleration: number;
   angle: number;
   controls: Controls;
   friction: number;
-  height: number;
   maxSpeed: number;
-  speed: number;
-  width: number;
-  x: number;
-  y: number;
+  polygon: () => { x: number; y: number }[];
   sensor: Sensor;
+  speed: number;
+
   constructor(x: number, y: number, width: number, height: number) {
     this.x = x;
     this.y = y;
@@ -30,27 +44,30 @@ export class Car {
     // define this.rays as an array of sensor.rays.length
     this.sensor.rays = [];
     this.controls = new Controls();
+    this.polygon = this.createPolygon as () => PolygonType;
   }
 
+  // type RoadBordersType = {}
   // write an update method using the Controls class values and import Controls class in main.ts
-  update(roadBorders) {
-    this.move();
-    this.sensor.update(roadBorders);
+  update(roadBorders: RoadBordersType): void {
+    this.move() as void;
+
+    this.polygon = this.createPolygon;
+    this.sensor.update(roadBorders) as void;
   }
 
-  private createPolygon(): { x: number, y: number }[] {
-    const points: { x: number, y: number }[] = []; // 1 point per corner of car -> you can add more
-    const rad: number = Math.hypot(this.width, this.height) / 2; // hypotenuse of car -> Returns the square root of the sum of squares of its arguments.
-    const alpha: number = Math.atan2(this.width, this.height); // no need to divide by 2 as the angle is the same no matter the way you look at it
-
+  private createPolygon() {
+    const points: PointsType = [];
+    const rad = Math.hypot(this.width, this.height) / 2;
+    const alpha = Math.atan2(this.width, this.height);
     points.push({
       x: this.x - Math.sin(this.angle - alpha) * rad,
       y: this.y - Math.cos(this.angle - alpha) * rad,
-    }); // top right corner (point)
+    });
     points.push({
       x: this.x - Math.sin(this.angle + alpha) * rad,
       y: this.y - Math.cos(this.angle + alpha) * rad,
-    }); // top left corner (point)
+    });
     points.push({
       x: this.x - Math.sin(Math.PI + this.angle - alpha) * rad,
       y: this.y - Math.cos(Math.PI + this.angle - alpha) * rad,
@@ -59,22 +76,22 @@ export class Car {
       x: this.x - Math.sin(Math.PI + this.angle + alpha) * rad,
       y: this.y - Math.cos(Math.PI + this.angle + alpha) * rad,
     });
-    return points as {x: number, y: number}[];
+    return points;
   }
 
-  private move(): void {
-    /* -speed indicates that car is going backwards since its a 2d x,y dimension */
-    const maxSpeedReverse: number = (-1 * this.maxSpeed) / 2;
+  private move() {
     if (this.controls.forward) {
-      this.speed += this.acceleration; /* // this.y -= 5; */
+      this.speed += this.acceleration;
     }
     if (this.controls.reverse) {
-      this.speed -= this.acceleration; // this.y += 5;
+      this.speed -= this.acceleration;
     }
 
     if (this.speed > this.maxSpeed) {
       this.speed = this.maxSpeed;
     }
+
+    const maxSpeedReverse: number = -this.maxSpeed / 2;
     if (this.speed < maxSpeedReverse) {
       this.speed = maxSpeedReverse;
     }
@@ -85,16 +102,12 @@ export class Car {
     if (this.speed < 0) {
       this.speed += this.friction;
     }
-    /* the car still moves slightly so this fixes it */
     if (Math.abs(this.speed) < this.friction) {
       this.speed = 0;
     }
-    /**
-     * to fix => car spinning in place reversing and reversing the other way. left <-> right flipped * +ve speed is forward, -ve speed is backwards
-     * Box2D is a great library for physics and collision detection
-     * */
-    if (this.speed !== 0) {
-      const flip: 1 | -1 = ((this.speed > 0) as boolean) ? 1 : -1;
+
+    if (this.speed != 0) {
+      const flip: 1 | -1 = this.speed > 0 ? 1 : -1;
       if (this.controls.left) {
         this.angle += 0.03 * flip;
       }
@@ -102,18 +115,27 @@ export class Car {
         this.angle -= 0.03 * flip;
       }
     }
-    // based on unit circle & scale it with value of speed
+
     this.x -= Math.sin(this.angle) * this.speed;
     this.y -= Math.cos(this.angle) * this.speed;
-    // this.y -= this.speed; /* don't need this anymore after sin, cos */
   }
-  /* now call animate() method in main.ts */
+
+  // draw(ctx: CanvasRenderingContext2D): void {
+  //   ctx.beginPath() as void;
+  //   ctx.moveTo(this.polygon[0].x, this.polygon[0].y) as void;
+  //   for (let i = 1; i < this.polygon.length; i += 1) {
+  //     ctx.lineTo(this.polygon[i].x, this.polygon[i].y) as void;
+  //   }
+  //   ctx.fill() as void;
+
+  //   this.sensor.draw(ctx);
+  // }
 
   draw(ctx: CanvasRenderingContext2D) {
     ctx.save();
     ctx.translate(this.x, this.y);
     ctx.rotate(-this.angle); /* next remove this.x, this.y
-    from ctx.rect( -this.width,height) */
+  from ctx.rect( -this.width,height) */
 
     ctx.beginPath();
     ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
@@ -121,68 +143,86 @@ export class Car {
 
     ctx.restore(); /* avoids infinite series of translations and rotations */
 
-    try {
-      this.sensor.draw(ctx);
-    } catch (error) {
-      console.log(error);
-    } // TypeError: this.rays[r] is undefined
+    this.sensor.draw(ctx);
   }
 }
 
 // define as custom element
 // window.customElements.define('car-element', Car);
 
-/*
+/**
+ * CAR DIAGRAM
+ *
+ *  z*r_;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;I-n*
+ *  z-.                                                                  .(
+ *    c`                                      width                        ;
+ *    c`                  .                                           .    :
+ *  c`                 < ...........................................>    :
+ *  c`               ^.!MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMcI.   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$$$$$$$$$$$$$$$$$v~*'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$$$$$$$$$$$$$$$$r?BB'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$$$$$$$$$$$$$$$\)$$B'   :
+ *  /`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$$$$$$$$$$$$$@?/$$$B'   :
+ *  /`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$$$$$$$$$$$$W~c$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$$$$$$$$$$$M+8$$$$$B'   :
+ *  x'               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$$$$$$$$$$r_%$$$$$$B'   :
+ *  {`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$     $$$${1$$$$$$$$B'   :
+ *  v`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$  α  $$$[x$$$$$$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$ +........+c$$$$$$$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$$$$$v+     /    $$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$$$$r?@  radius  $$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$$$\)$$  /       $$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$B?t$$$$$$$$$$$$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$W~c$$$$$$$$$$$$$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$ $M+%$$$$$$$$$$$$$$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$ r_%$$$$$$$$$$$$$$$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$@[,~@$$$$$$$$$$$$$$$$$$$B'   :
+ *  c`    height     . ~$$$$$$$$$$$$$$$$$$$$@l^/$$$$$$$$$$$$$$$$$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
+ *  /`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
+ *  1'               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
+ *  c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
+ *  c`               v.~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
+ *  z;                 .'''''''''''''''''''''''''''''''''''''''''''''    ?
+ *  z*r_;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;I-n*
+ *
+ * */
 
+/**
+ * ARCHIVE
+ *
+ * 20220520174006
+ * before createPolygon() was featured to replace this type of code
+ */
 
-z*r_;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;I-n*
-z-.                                                                  .(
-  c`                                      width                        ;
-  c`                  .                                           .    :
-c`                 < ...........................................>    :
-c`               ^.!MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMcI.   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$$$$$$$$$$$$$$$$$v~*'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$$$$$$$$$$$$$$$$r?BB'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$$$$$$$$$$$$$$$\)$$B'   :
-/`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$$$$$$$$$$$$$@?/$$$B'   :
-/`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$$$$$$$$$$$$W~c$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$$$$$$$$$$$M+8$$$$$B'   :
-x'               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$$$$$$$$$$r_%$$$$$$B'   :
-{`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$     $$$${1$$$$$$$$B'   :
-v`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$  α  $$$[x$$$$$$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$ +........+c$$$$$$$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$$$$$v+     /    $$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$$$$r?@  radius  $$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$$$\)$$  /       $$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$$B?t$$$$$$$$$$$$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$ $$W~c$$$$$$$$$$$$$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$ $M+%$$$$$$$$$$$$$$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$ r_%$$$$$$$$$$$$$$$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$@[,~@$$$$$$$$$$$$$$$$$$$B'   :
-c`    height     . ~$$$$$$$$$$$$$$$$$$$$@l^/$$$$$$$$$$$$$$$$$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
-/`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
-1'               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
-c`               . ~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
-c`               v.~$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$B'   :
-z;                 .'''''''''''''''''''''''''''''''''''''''''''''    ?
-z*r_;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;I-n*
+//  draw(ctx: CanvasRenderingContext2D) {
+//   ctx.save();
+//   ctx.translate(this.x, this.y);
+//   ctx.rotate(-this.angle); /* next remove this.x, this.y
+//   from ctx.rect( -this.width,height) */
 
+//   ctx.beginPath();
+//   ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
+//   ctx.fill(); /* context fills the rectangle with the rect defined values */
 
+//   ctx.restore(); /* avoids infinite series of translations and rotations */
 
-
-
-*/
+//   try {
+//     this.sensor.draw(ctx);
+//   } catch (error) {
+//     console.log(error);
+//   } // TypeError: this.rays[r] is undefined
+// }
