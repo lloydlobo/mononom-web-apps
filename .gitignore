@@ -40,3 +40,6 @@ Thumbs.db
 
 # New Relic Codestream
 newrelic_agent.log
+
+# Environment Variables
+.env
