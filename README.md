@@ -14,7 +14,7 @@ Other [sources](https://puppet.com/resources/report/state-of-devops-report/)
 
 > Trunk Based Development (TBD) and continuous integration improves software delivery performance.
 
-[!](https://miro.medium.com/max/1400/1*9qBAimfK7VZ1IG-2-puMUg.png)
+[](https://miro.medium.com/max/1400/1*9qBAimfK7VZ1IG-2-puMUg.png)
 
 ## Development Environment
 
@@ -25,6 +25,13 @@ ngrok http 4200 --host-header=rewrite
 ```
 
 [Source](https://stackoverflow.com/questions/45425721/invalid-host-header-when-ngrok-tries-to-connect-to-react-dev-server)
+
+### Recursively Sanitize Git project
+
+```bash
+git ls-files -z | while IFS= read -rd '' f; do tail -c1 < "$f" | read -r _ || echo >> "$f"; done
+```
+[Source](https://unix.stackexchange.com/a/161853)
 
 ---
 

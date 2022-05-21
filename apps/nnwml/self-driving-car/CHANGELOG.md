@@ -2,8 +2,7 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
-# 0.1.0 (2022-05-21)
-
+## 0.1.0 (2022-05-21)
 
 ### Bug Fixes
 
@@ -13,7 +12,6 @@ This file was generated using [@jscutlery/semver](https://github.com/jscutlery/s
 * buggy diasppearing car ([83533c4](https://github.com/lloydlobo/mononom-web-apps/commit/83533c464d8d790dcf503e4402c46dacd2f979b2))
 * change right road line stroke to positive num ([5872508](https://github.com/lloydlobo/mononom-web-apps/commit/5872508196faef728d68dc37875d0642bf3f38e1))
 * move canvas.height in animate() ([9e7219e](https://github.com/lloydlobo/mononom-web-apps/commit/9e7219e32a8fbeed95c648130f293c35847d5f99))
-
 
 ### Features
 
@@ -35,7 +33,6 @@ This file was generated using [@jscutlery/semver](https://github.com/jscutlery/s
 * give complex shapes to car with createPolygon ([9197321](https://github.com/lloydlobo/mononom-web-apps/commit/9197321aadab9886454690e356e3c83e239e3d6e))
 * implement sensors to the car ([6bab748](https://github.com/lloydlobo/mononom-web-apps/commit/6bab74882808f7ae90d80f8fb39805f4509478e6))
 * initialize controls class for key events ([cdd4fc0](https://github.com/lloydlobo/mononom-web-apps/commit/cdd4fc0365735b6ed1bd8cd1037b811fdf8eada2))
-
 
 ### Performance Improvements
 

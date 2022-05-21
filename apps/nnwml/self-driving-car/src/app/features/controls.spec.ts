@@ -1,33 +1,36 @@
 import { Car } from './car';
 import { Controls } from './controls';
 
+// let controls: Controls;
+const controlsDummyCar = new Controls('DUMMY');
+// const controlsDummy = new Controls('DUMMY');
+
 describe('Controls', () => {
   it('should create an instance', () => {
-    expect(new Controls()).toBeTruthy();
+    expect(controlsDummyCar).toBeTruthy();
   });
 });
 
-let controls: Controls;
-describe('Controls', () => {
-  beforeEach(() => {
-    controls = new Controls();
-    return controls;
-  });
+describe('Controls DUMMY Car', () => {
+  // beforeEach(() => {
+  //   controls = new Controls();
+  //   return controls;
+  // });
 
   it('should have a forward value of false', () => {
-    expect(controls.forward).toBe(false);
+    expect(controlsDummyCar.forward).toBe(true);
   });
 
   it('should have a reverse value of false', () => {
-    expect(controls.reverse).toBe(false);
+    expect(controlsDummyCar.reverse).toBe(false);
   });
 
   it('should have a left value of false', () => {
-    expect(controls.left).toBe(false);
+    expect(controlsDummyCar.left).toBe(false);
   });
 
   it('should have a right value of false', () => {
-    expect(controls.right).toBe(false);
+    expect(controlsDummyCar.right).toBe(false);
   });
 });
 
@@ -42,16 +45,17 @@ describe('Controls', () => {
  *
  */
 
-describe('Car Controls', () => {
+describe('DUMMY Car Controls', () => {
   // const controls = new Controls();
   let car: Car;
 
   beforeEach(() => {
-    car = new Car(100, 100, 30, 50);
+    car = new Car(100, 100, 30, 50, 'DUMMY');
     car.update([]);
   });
 
-  it('should have a speed of 0', () => {
-    expect(car.speed).toBe(0);
+  it('should have a speed of 0>speed>1', () => {
+    expect(car.speed).toBeGreaterThanOrEqual(0);
+    expect(car.speed).toBeLessThanOrEqual(1);
   });
 });

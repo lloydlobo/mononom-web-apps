@@ -5,11 +5,11 @@ describe('Car', () => {
   let car: Car;
 
   beforeEach(() => {
-    car = new Car(100, 100, 30, 50);
+    car = new Car(100, 100, 30, 50, 'KEYS');
     car.update([]);
   });
   it('should create an instance', () => {
-    expect(new Car(100, 100, 30, 50)).toBeTruthy();
+    expect(car).toBeTruthy();
   });
 
   it('should have a speed of 0', () => {
@@ -29,7 +29,7 @@ describe('Car', () => {
   let car: Car;
 
   beforeEach(() => {
-    car = new Car(100, 100, 30, 50);
+    car = new Car(100, 100, 30, 50, 'KEYS');
     car.update([]);
   });
 

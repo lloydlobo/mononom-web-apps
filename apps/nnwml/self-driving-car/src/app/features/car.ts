@@ -1,6 +1,7 @@
 import { Controls } from './controls';
 import { Sensor, RoadBordersType } from './sensor';
 import { polysIntersect } from '../utils';
+import { off } from 'process';
 
 export type PointsType = { x: number; y: number }[];
 /**
@@ -27,7 +28,14 @@ export class Car {
   speed: number;
   damaged: boolean;
 
-  constructor(x: number, y: number, width: number, height: number) {
+  constructor(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    controlType: string,
+    maxSpeed = 3
+  ) {
     this.x = x;
     this.y = y;
     this.width = width;
@@ -35,14 +43,15 @@ export class Car {
 
     this.speed = 0;
     this.acceleration = 0.2;
-    this.maxSpeed = 3; /* diagonally it's buggy => define an angle */
+    this.maxSpeed = maxSpeed; /* diagonally it's buggy => define an angle */
     this.friction = 0.05;
     this.angle = 0;
     this.damaged = false;
 
-    this.sensor = new Sensor(this);
-    this.controls = new Controls();
-    // this.sensor.rays = [];
+    if (controlType != 'DUMMY') {
+      this.sensor = new Sensor(this)
+    }
+    this.controls = new Controls(controlType);
   }
 
   // type RoadBordersType = {}
@@ -53,7 +62,10 @@ export class Car {
       this.polygon = this.createPolygon();
       this.damaged = this.assessDamage(roadBorders);
     }
-    this.sensor.update(roadBorders) as void;
+
+    if (this.sensor) {
+      this.sensor.update(roadBorders);
+    }
   }
 
   private assessDamage(roadBorders: RoadBordersType): boolean {
@@ -142,8 +154,9 @@ export class Car {
       ctx.lineTo(this.polygon[i].x, this.polygon[i].y);
     }
     ctx.fill();
-
-    this.sensor.draw(ctx);
+    if (this.sensor) {
+      this.sensor.draw(ctx);
+    } // controlType = 'Dummy' do not get sensors
   }
 }
 

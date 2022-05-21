@@ -3,13 +3,24 @@ export class Controls {
   reverse: boolean;
   right: boolean;
   left: boolean;
-  constructor() {
+  constructor(type: string) {
     this.forward = false;
     this.left = false;
     this.right = false;
     this.reverse = false;
     // private method for addKeyboardListeners to be called in constructor
-    this.addKeyboardListeners();
+    // this.addKeyboardListeners();
+
+    switch (type as string) {
+      case 'KEYS': {
+        this.addKeyboardListeners();
+        break;
+      }
+      case 'DUMMY': {
+        this.forward = true;
+        break;
+      }
+    }
   }
 
   private addKeyboardListeners() {
