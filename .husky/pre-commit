@@ -8,3 +8,6 @@ npm test
 
 # lint
 npx nx affected --target=lint --verbose=true
+
+# gitguardian
+ggshield scan pre-commit
