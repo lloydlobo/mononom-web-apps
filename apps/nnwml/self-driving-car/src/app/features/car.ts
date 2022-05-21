@@ -11,29 +11,24 @@ export type PointsType = { x: number; y: number }[];
  * @class Car
  * @typedef {Car}
  */
-export class Car {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
 
+export class Car {
   acceleration: number;
   angle: number;
   controls: Controls;
   friction: number;
-  maxSpeed: number;
   polygon: PointsType;
   sensor: Sensor;
   speed: number;
   damaged: boolean;
 
   constructor(
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-    controlType: string,
-    maxSpeed = 3
+    public x: number,
+    public y: number,
+    public width: number,
+    public height: number,
+    public controlType: string,
+    public maxSpeed = 3
   ) {
     this.x = x;
     this.y = y;
