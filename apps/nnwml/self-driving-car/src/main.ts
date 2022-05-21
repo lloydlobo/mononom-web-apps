@@ -18,8 +18,10 @@ canvas.width = 200;
 
 export const ctx: CanvasRenderingContext2D = canvas.getContext('2d'); // a drawing context is a way to draw on a canvas
 export const road = new Road(canvas.width / 2, canvas.width * 0.9);
-export const car: Car = new Car(road.getLaneCenter(1), 100, 30, 50);
-export const traffic: Car[] = [new Car(road.getLaneCenter(1), -100, 30, 50)];
+export const car: Car = new Car(road.getLaneCenter(1), 100, 30, 50, 'KEYS');
+export const traffic: Car[] = [
+  new Car(road.getLaneCenter(1), -100, 30, 50, 'DUMMY'),
+];
 // car.draw(ctx); /* draw car on the canvas in the DOM */
 animate();
 

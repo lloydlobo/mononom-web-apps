@@ -27,7 +27,7 @@ export class Car {
   speed: number;
   damaged: boolean;
 
-  constructor(x: number, y: number, width: number, height: number) {
+  constructor(x: number, y: number, width: number, height: number, controlType: string) {
     this.x = x;
     this.y = y;
     this.width = width;
@@ -41,7 +41,7 @@ export class Car {
     this.damaged = false;
 
     this.sensor = new Sensor(this);
-    this.controls = new Controls();
+    this.controls = new Controls(controlType);
     // this.sensor.rays = [];
   }
 

@@ -1,18 +1,23 @@
 import { Car } from './car';
 import { Controls } from './controls';
 
+let controls: Controls;
+const types = ['KEYS', 'DUMMY'];
+for (const type of types) {
+  controls = new Controls(type);
+}
+
 describe('Controls', () => {
   it('should create an instance', () => {
-    expect(new Controls()).toBeTruthy();
+    expect(controls).toBeTruthy();
   });
 });
 
-let controls: Controls;
 describe('Controls', () => {
-  beforeEach(() => {
-    controls = new Controls();
-    return controls;
-  });
+  // beforeEach(() => {
+  //   controls = new Controls();
+  //   return controls;
+  // });
 
   it('should have a forward value of false', () => {
     expect(controls.forward).toBe(false);
@@ -47,7 +52,7 @@ describe('Car Controls', () => {
   let car: Car;
 
   beforeEach(() => {
-    car = new Car(100, 100, 30, 50);
+    car = new Car(100, 100, 30, 50, 'KEYS');
     car.update([]);
   });
 
