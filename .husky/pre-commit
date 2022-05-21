@@ -10,4 +10,5 @@ npm test
 npx nx affected --target=lint --verbose=true
 
 # gitguardian
-ggshield scan pre-commit
+# ggshield scan pre-commit
+npm run shield
