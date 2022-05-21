@@ -1,17 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export class NeuralNetwork {
-  levels: any[];
-  constructor(neuronCounts) {
+  levels;
+  constructor(neuronCounts: number[]) {
     this.levels = [];
     for (let i = 0; i < neuronCounts.length - 1; i += 1) {
       this.levels.push(
         new Level(neuronCounts[i], neuronCounts[i + 1])
       );
     }
-
   }
 
-  static feedForward(givenInputs, network) {
+  static feedForward(givenInputs, network: NeuralNetwork) {
     // calling first level to produce it's outputs
     let outputs = Level.feedForward(givenInputs, network.levels[0]);
     for (let i = 1 as number; i < network.levels.length; i += 1) {
@@ -19,42 +17,38 @@ export class NeuralNetwork {
     }
     return outputs;
   }
-
 }
 
 export class Level {
-  inputs: any[];
-  outputs: any[];
-  biases: any[];
-  weights: any[];
-  constructor(inputCount: number, outputCount: any) {
-    this.inputs = new Array(inputCount);
-    this.outputs = new Array(outputCount);
-    this.biases = new Array(outputCount); // biases is the alue above which a neuro will fire
+  inputs: number[]
+  outputs: number[]
+  biases: number[]
+  weights: number[][]
+  constructor(inputCount: number, outputCount: number) {
+    this.inputs = new Array(inputCount) as number[];
+    this.outputs = new Array(outputCount) as number[];
+    this.biases = new Array(outputCount) as number[]; // biases is the alue above which a neuro will fire
 
-    this.weights = [];
+    this.weights = [] as number[][];
     for (let i = 0; i < inputCount; i += 1) {
       this.weights[i] = new Array(outputCount); /* so far only a shell for connections */
-
-      // build a random brain to begin with
-      Level.randomize(this);
     }
+    // build a random brain to begin with
+    Level.randomize(this);
   }
 
   static randomize(level) {
-    // throw new Error("Method not implemented.");
     for (let i = 0; i < level.inputs.length; i += 1) {
       for (let j = 0; j < level.outputs.length; j += 1) {
-        level.weight[i][j] = Math.random() * 2 - 1; // value btw -1 & 1
+        level.weights[i][j] = Math.random() * 2 - 1; // value btw -1 & 1
       }
     }
-
     for (let i = 0; i < level.biases.length; i += 1) {
       level.biases[i] = Math.random() * 2 - 1;
     }
   } /*  static to serialize because methods don't serialize */
 
-  static feedForward(givenInputs, level) {
+  static feedForward(givenInputs: number[], level) {
     for (let i = 0; i < level.inputs.length; i += 1) {
       level.inputs[i] = givenInputs[i];
 
@@ -64,11 +58,11 @@ export class Level {
       let sum = 0;
       // const inputs = this.inputs
       for (let j = 0; j < level.inputs.length; j += 1) {
-        sum += level.inputs[j] * level.weights[j];
+        sum += level.inputs[j] * level.weights[j][i];
       }
 
       if (sum > level.biases[i]) {
-        level.output[i] = 1; // turning it on
+        level.outputs[i] = 1; // turning it on
       } else {
         level.outputs[i] = 0;
       }
@@ -76,7 +70,6 @@ export class Level {
 
     return level.outputs;
   }
-
 }
 
 

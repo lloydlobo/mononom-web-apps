@@ -1,26 +1,21 @@
+import { NeuralNetwork } from '../logic';
 import { Controls } from './controls';
 import { Sensor, RoadBordersType } from './sensor';
 import { polysIntersect } from '../utils';
 
 export type PointsType = { x: number; y: number }[];
-/**
- * Car Class
- * @date 5/20/2022 - 9:04:45 PM
- *
- * @export
- * @class Car
- * @typedef {Car}
- */
 
 export class Car {
   acceleration: number;
   angle: number;
+  brain: NeuralNetwork;
   controls: Controls;
+  damaged: boolean;
   friction: number;
   polygon: PointsType;
   sensor: Sensor;
   speed: number;
-  damaged: boolean;
+  useBrain: boolean;
 
   constructor(
     public x: number,
@@ -42,27 +37,49 @@ export class Car {
     this.angle = 0;
     this.damaged = false;
 
+    this.useBrain = (controlType == 'AI') as boolean;
+
     if (controlType != 'DUMMY') {
-      this.sensor = new Sensor(this)
+      this.sensor = new Sensor(this);
+      this.brain = new NeuralNetwork(
+        [this.sensor.rayCount, 6, 4]
+      ); // brain => raycount, hidden layer , 4 -> all directions
     }
     this.controls = new Controls(controlType);
   }
 
   // type RoadBordersType = {}
   // write an update method using the Controls class values and import Controls class in main.ts
-  update(roadBorders: RoadBordersType, traffic): void {
+  update(roadBorders: RoadBordersType, traffic: Car[]) {
     if (!this.damaged) {
-      this.move() as void;
+      this.move();
       this.polygon = this.createPolygon();
       this.damaged = this.assessDamage(roadBorders, traffic);
     }
 
     if (this.sensor) {
       this.sensor.update(roadBorders, traffic);
+      const offsets = this.sensor.readings
+        .map((s: { offset: number; }) => s == null ? 0 : 1 - s.offset);
+      const outputs = NeuralNetwork.feedForward(offsets, this.brain);
+      console.log(outputs);
+
+      if (this.useBrain) {
+        this.controls.forward = outputs[0];
+        this.controls.left = outputs[1];
+        this.controls.right = outputs[2];
+        this.controls.reverse = outputs[3];
+      }
     }
   }
 
-  private assessDamage(roadBorders: RoadBordersType, traffic): boolean {
+  /**
+   * Assess damage
+   * @param roadBorders
+   * @param traffic
+   * @returns true if damage
+   */
+  private assessDamage(roadBorders: RoadBordersType, traffic: Car[]): boolean {
     for (let i = 0; i < roadBorders.length; i++) {
       if (polysIntersect(this.polygon, roadBorders[i])) {
         return true;
@@ -76,6 +93,10 @@ export class Car {
     return false;
   }
 
+  /**
+   * Creates polygon
+   * @returns
+   */
   private createPolygon() {
     const points: PointsType = [];
     const rad: number = Math.hypot(this.width, this.height) / 2;
@@ -157,6 +178,7 @@ export class Car {
       this.sensor.draw(ctx);
     } // controlType = 'Dummy' do not get sensors
   }
+
 }
 
 // define as custom element
@@ -238,3 +260,9 @@ export class Car {
 //     console.log(error);
 //   } // TypeError: this.rays[r] is undefined
 // }
+
+// 20220521213913
+// const offsets = this.sensor.readings
+//         .map(s => s === null ? 0 : 1 - s.offset); // from each sensor reading if it's null return 0, sensor goes as far as possible and doesn't see anything, otherwise return 1-return offset. give the sensor a low value. the closer you get to a ray of light reflecting, it increases. like a torch
+//       const outputs = NeuralNetwork.feedForward(offsets, this.brain);
+//       // console.log(outputs);
