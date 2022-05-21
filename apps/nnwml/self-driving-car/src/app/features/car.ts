@@ -1,6 +1,7 @@
 import { Controls } from './controls';
 import { Sensor, RoadBordersType } from './sensor';
 import { polysIntersect } from '../utils';
+import { off } from 'process';
 
 export type PointsType = { x: number; y: number }[];
 /**
@@ -47,9 +48,10 @@ export class Car {
     this.angle = 0;
     this.damaged = false;
 
-    this.sensor = new Sensor(this);
+    if (controlType != 'DUMMY') {
+      this.sensor = new Sensor(this)
+    }
     this.controls = new Controls(controlType);
-    // this.sensor.rays = [];
   }
 
   // type RoadBordersType = {}
@@ -60,7 +62,10 @@ export class Car {
       this.polygon = this.createPolygon();
       this.damaged = this.assessDamage(roadBorders);
     }
-    this.sensor.update(roadBorders) as void;
+
+    if (this.sensor) {
+      this.sensor.update(roadBorders);
+    }
   }
 
   private assessDamage(roadBorders: RoadBordersType): boolean {
@@ -149,8 +154,9 @@ export class Car {
       ctx.lineTo(this.polygon[i].x, this.polygon[i].y);
     }
     ctx.fill();
-
-    this.sensor.draw(ctx);
+    if (this.sensor) {
+      this.sensor.draw(ctx);
+    } // controlType = 'Dummy' do not get sensors
   }
 }
 
