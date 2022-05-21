@@ -18,6 +18,7 @@ import { lerp } from '../utils/lerp';
  * @typedef {Road}
  */
 export class Road {
+  borders: { x: number; y: number }[][];
   bottom: number;
   laneCount: number;
   left: number;
@@ -25,7 +26,6 @@ export class Road {
   top: number;
   width: number;
   x: number;
-  borders: { x: number; y: number }[][];
   constructor(x: number, width: number, laneCount = 3 as number) {
     this.x = x;
     this.width = width;

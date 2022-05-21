@@ -1,7 +1,6 @@
 import { Controls } from './controls';
 import { Sensor, RoadBordersType } from './sensor';
 import { polysIntersect } from '../utils';
-import { off } from 'process';
 
 export type PointsType = { x: number; y: number }[];
 /**
@@ -56,21 +55,26 @@ export class Car {
 
   // type RoadBordersType = {}
   // write an update method using the Controls class values and import Controls class in main.ts
-  update(roadBorders: RoadBordersType): void {
+  update(roadBorders: RoadBordersType, traffic): void {
     if (!this.damaged) {
       this.move() as void;
       this.polygon = this.createPolygon();
-      this.damaged = this.assessDamage(roadBorders);
+      this.damaged = this.assessDamage(roadBorders, traffic);
     }
 
     if (this.sensor) {
-      this.sensor.update(roadBorders);
+      this.sensor.update(roadBorders, traffic);
     }
   }
 
-  private assessDamage(roadBorders: RoadBordersType): boolean {
+  private assessDamage(roadBorders: RoadBordersType, traffic): boolean {
     for (let i = 0; i < roadBorders.length; i++) {
       if (polysIntersect(this.polygon, roadBorders[i])) {
+        return true;
+      }
+    }
+    for (let i = 0; i < traffic.length; i++) {
+      if (polysIntersect(this.polygon, traffic[i].polygon)) {
         return true;
       }
     }
@@ -141,11 +145,11 @@ export class Car {
     this.y -= Math.cos(this.angle) * this.speed;
   }
 
-  draw(ctx: CanvasRenderingContext2D) {
+  draw(ctx: CanvasRenderingContext2D, color) {
     if (this.damaged) {
       ctx.fillStyle = 'grey';
     } else {
-      ctx.fillStyle = 'black';
+      ctx.fillStyle = color;
     }
     ctx.beginPath();
     ctx.moveTo(this.polygon[0].x, this.polygon[0].y);

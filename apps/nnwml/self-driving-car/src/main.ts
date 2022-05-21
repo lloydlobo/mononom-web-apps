@@ -6,9 +6,10 @@ import { Car, Road } from './app';
 
 export const canvas = document.getElementById('myCanvas') as HTMLCanvasElement; // object
 canvas.width = 200;
+export const ctx = canvas.getContext('2d') as CanvasRenderingContext2D; // a drawing context is a way to draw on a canvas
 
-export const ctx: CanvasRenderingContext2D = canvas.getContext('2d'); // a drawing context is a way to draw on a canvas
 export const road = new Road(canvas.width / 2, canvas.width * 0.9);
+
 export const car: Car = new Car(road.getLaneCenter(1), 100, 30, 50, 'KEYS');
 export const traffic: Car[] = [
   new Car(road.getLaneCenter(1), -100, 30, 50, 'DUMMY', 2),
@@ -27,9 +28,9 @@ animate();
 
 export function animate(): void {
   for (let i = 0; i < traffic.length; i += 1) {
-    traffic[i].update(road.borders);
+    traffic[i].update(road.borders, []); // empty array to prevent traffic to not damage itself
   } /* can pass in empty array to keey traffic invulnerable in update */
-  car.update(road.borders);
+  car.update(road.borders, traffic);
 
   canvas.height = window.innerHeight;
 
@@ -41,9 +42,9 @@ export function animate(): void {
   road.draw(ctx);
 
   for (let i = 0; i < traffic.length; i += 1) {
-    traffic[i].draw(ctx);
+    traffic[i].draw(ctx, 'red');
   }
-  car.draw(ctx); /* draw car on the canvas in the DOM */
+  car.draw(ctx, 'blue'); /* draw car on the canvas in the DOM */
 
   ctx.restore(); // restores the canvas to its previous state from save()
   requestAnimationFrame(animate); // calls the animate() method again and again gives the illusion of movement of the car

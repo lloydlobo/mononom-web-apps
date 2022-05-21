@@ -1,3 +1,4 @@
+import { road, traffic } from '../../main';
 import { Car } from './car';
 import { Controls } from './controls';
 
@@ -51,7 +52,7 @@ describe('DUMMY Car Controls', () => {
 
   beforeEach(() => {
     car = new Car(100, 100, 30, 50, 'DUMMY');
-    car.update([]);
+    // car.update(road.borders, traffic);
   });
 
   it('should have a speed of 0>speed>1', () => {

@@ -1,8 +1,3 @@
-import './app.element.scss';
-import './features/road';
-import './features/sensor';
-// import { Car, Road, Controls } from './features';
-
 export class AppElement extends HTMLElement {
   public static observedAttributes = [];
 
@@ -15,3 +10,7 @@ export class AppElement extends HTMLElement {
   }
 }
 customElements.define('mononom-web-apps-root', AppElement);
+
+import './app.element.scss';
+import './features/road';
+import './features/sensor';

@@ -1,3 +1,6 @@
+import { ctx, road, traffic } from './main'
+import { Car, Controls } from './app';
+// ----------------------------------------------------------------------------
 /*
  █████╗ ███╗   ██╗██╗███╗   ███╗ █████╗ ████████╗███████╗
 ██╔══██╗████╗  ██║██║████╗ ████║██╔══██╗╚══██╔══╝██╔════╝
@@ -15,10 +18,9 @@ describe('animate', () => {
   it.todo('should be defined');
 });
 
-// ----------------------------------------------------------------------------
 
 // import './main.ts';
-import { Car, Controls } from './app';
+// import { traffic, road } from './main'
 
 describe('Car DUMMY Controls', () => {
   // const controls = new Controls();
@@ -26,7 +28,7 @@ describe('Car DUMMY Controls', () => {
 
   beforeEach(() => {
     car = new Car(100, 100, 30, 50, 'DUMMY');
-    car.update([]);
+    // car.update(road.borders, traffic);
   });
 
   it('should have a speed of 0', () => {
@@ -56,7 +58,7 @@ describe('Car Controls', () => {
 
   beforeEach(() => {
     car = new Car(100, 100, 30, 50, 'DUMMY');
-    car.update([]);
+    // car.update(road.borders, traffic);
   });
 
   it('controls car forward, reverse, left, and right', () => {

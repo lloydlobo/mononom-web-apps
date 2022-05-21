@@ -25,19 +25,22 @@ export class Sensor {
     this.readings = [];
   }
 
-  update(roadBorders: RoadBordersType): void {
+  update(roadBorders: RoadBordersType, traffic): void {
     this.castRays() as void;
     this.readings = [] as ReadingsType;
     for (let i = 0; i < this.rays.length; i++) {
       // const ray = this.rays[i];
       // const closest = this.getClosestIntersection(ray, roadBorders);
       // this.readings.push(closest);
-      this.readings.push(this.getReading(this.rays[i], roadBorders));
+      this.readings.push(this.getReading(
+        this.rays[i],
+        roadBorders,
+        traffic));
     }
   }
 
-  private getReading(ray: RayType, roadBorders: RoadBordersType): TouchType {
-    const touches: TouchType[] = [];
+  private getReading(ray: RayType, roadBorders: RoadBordersType, traffic): TouchType {
+    const touches: TouchType[] = []; // from rowborders to polygon segments after adding traffic property
 
     for (let i = 0; i < roadBorders.length; i++) {
       const touch: TouchType = getIntersection(
@@ -50,6 +53,21 @@ export class Sensor {
       if (touch) {
         touches.push(touch);
       } // can be null if no segments intersect
+    }
+
+    // traffic
+    for (let i = 0; i < traffic.length; i += 1) {
+      const poly = traffic[i].polygon;
+      for (let j = 0; j < poly.length; j += 1) {
+        const value = getIntersection(ray[0], ray[1], poly[j], poly[(j + 1) % poly.length]) as {
+          x: number;
+          y: number;
+          offset: number;
+        };
+        if (value) {
+          touches.push(value);
+        }
+      }
     }
 
     if (touches.length === 0) {

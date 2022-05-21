@@ -1,3 +1,4 @@
+import { road, traffic } from '../../main';
 import { Car } from './car';
 
 describe('Car', () => {
@@ -6,7 +7,7 @@ describe('Car', () => {
 
   beforeEach(() => {
     car = new Car(100, 100, 30, 50, 'KEYS');
-    car.update([]);
+    // car.update(road.borders, traffic);
   });
   it('should create an instance', () => {
     expect(car).toBeTruthy();
@@ -30,7 +31,7 @@ describe('Car', () => {
 
   beforeEach(() => {
     car = new Car(100, 100, 30, 50, 'KEYS');
-    car.update([]);
+    // car.update(road.borders, traffic);
   });
 
   it('should have a maxSpeed of 3', () => {
