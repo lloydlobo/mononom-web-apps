@@ -27,7 +27,14 @@ export class Car {
   speed: number;
   damaged: boolean;
 
-  constructor(x: number, y: number, width: number, height: number, controlType: string) {
+  constructor(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    controlType: string,
+    maxSpeed = 3
+  ) {
     this.x = x;
     this.y = y;
     this.width = width;
@@ -35,7 +42,7 @@ export class Car {
 
     this.speed = 0;
     this.acceleration = 0.2;
-    this.maxSpeed = 3; /* diagonally it's buggy => define an angle */
+    this.maxSpeed = maxSpeed; /* diagonally it's buggy => define an angle */
     this.friction = 0.05;
     this.angle = 0;
     this.damaged = false;

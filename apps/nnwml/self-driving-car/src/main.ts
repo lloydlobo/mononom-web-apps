@@ -11,7 +11,7 @@ export const ctx: CanvasRenderingContext2D = canvas.getContext('2d'); // a drawi
 export const road = new Road(canvas.width / 2, canvas.width * 0.9);
 export const car: Car = new Car(road.getLaneCenter(1), 100, 30, 50, 'KEYS');
 export const traffic: Car[] = [
-  new Car(road.getLaneCenter(1), -100, 30, 50, 'DUMMY'),
+  new Car(road.getLaneCenter(1), -100, 30, 50, 'DUMMY', 2),
 ];
 
 /**
