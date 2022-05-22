@@ -45,6 +45,27 @@ export class Visualizer {
       ctx.fillStyle = 'white';
       ctx.fill();
     }
+
+    for (let i = 0; i < inputs.length; i += 1) {
+      for (let j = 0; j < outputs.length; j += 1) {
+        ctx.beginPath();
+        ctx.moveTo(Visualizer.getNodeX(inputs, i, left, right), bottom);
+        ctx.lineTo(Visualizer.getNodeX(outputs, j, left, right), top);
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'orange';
+        ctx.stroke();
+      }
+    }
+  }
+
+  private static getNodeX(nodes, index: number, left, right): number {
+    return lerp(
+      left,
+      right,
+      ((nodes.length === 1) as boolean)
+        ? (0.5 as number)
+        : ((index / (nodes.length - 1)) as number)
+    ) as number;
   }
 }
 
