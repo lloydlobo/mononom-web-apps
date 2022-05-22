@@ -67,8 +67,9 @@ export class Visualizer {
       ctx.lineWidth = lineWidthBias;
       ctx.arc(x, top, (nodeRadius * 80) / 100, 0, Math.PI * 2); // 80% of radius
       ctx.strokeStyle = getRGBA(biases[i]);
-
+      ctx.setLineDash([3, 3]); // biases are perforated 3px of line, 3px of space
       ctx.stroke();
+      ctx.setLineDash([]); // reset it
     }
   }
 

@@ -32,27 +32,24 @@ export function animate(): void {
     traffic[i].update(road.borders, []); // empty array to prevent traffic to not damage itself
   } /* can pass in empty array to keey traffic invulnerable in update */
   car.update(road.borders, traffic);
-
   carCanvas.height = window.innerHeight;
   networkCanvas.height = window.innerHeight;
-
   carCtx.save();
+
   const carPositionNearBottom = -1 * car.y + (carCanvas.height * 70) / 100; // -car.y is top of the screen
-
   carCtx.translate(0, carPositionNearBottom); // moves car down from top of screen to see what's ahead of the car
-
   road.draw(carCtx);
-
   for (let i = 0; i < traffic.length; i += 1) {
     traffic[i].draw(carCtx, 'red');
   }
   car.draw(carCtx, 'blue'); /* draw car on the canvas in the DOM */
-
   carCtx.restore(); // restores the canvas to its previous state from save()
 
   Visualizer.drawNetwork(networkCtx, car.brain);
   requestAnimationFrame(animate); // calls the animate() method again and again gives the illusion of movement of the car
 }
+
+// console.table(car.brain.levels[0]); // log this  regularly to check values of biases, weights, etc; as small mistakes can creep in anytime.
 
 // ============================================================================
 
