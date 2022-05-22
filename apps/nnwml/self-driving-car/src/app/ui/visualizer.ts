@@ -17,8 +17,43 @@ export class Visualizer {
     const right = left + width;
     const bottom = top + height;
 
+    const { inputs, outputs } = level;
     const nodeRadius = 18;
-    for (let i = 0; i < level.inputs.length; i += 1) {
+
+    for (let i = 0; i < inputs.length; i += 1) {
+      const x = lerp(
+        left,
+        right,
+        level.inputs.length == 1 ? 0.5 : ((i / (inputs.length - 1)) as number)
+      );
+
+      ctx.beginPath();
+      ctx.arc(x, bottom, nodeRadius, 0, Math.PI * 2);
+      ctx.fillStyle = 'white';
+      ctx.fill();
+    }
+
+    for (let i = 0; i < outputs.length; i += 1) {
+      const x = lerp(
+        left,
+        right,
+        level.outputs.length == 1 ? 0.5 : ((i / (outputs.length - 1)) as number)
+      );
+
+      ctx.beginPath();
+      ctx.arc(x, top, nodeRadius, 0, Math.PI * 2);
+      ctx.fillStyle = 'white';
+      ctx.fill();
+    }
+  }
+}
+
+// ARCHIVE
+
+/**
+ * 20220522172334 - to avoid repeating the code we destructure level into {inputs, outputs, ..} // can remove level from level.inputs.length to make the code shorter
+ * const nodeRadius = 18;
+    for (let i = 0; i < level.inputs.length; i += 1) { 
       const x = lerp(
         left,
         right,
@@ -31,6 +66,4 @@ export class Visualizer {
       ctx.arc(x, bottom, nodeRadius, 0, Math.PI * 2);
       ctx.fillStyle = 'white';
       ctx.fill();
-    }
-  }
-}
+ */
