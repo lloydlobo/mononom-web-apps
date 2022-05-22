@@ -1,5 +1,7 @@
 # Self Driving Car
 
+A simple self-driving car application with a neural network model.
+
 ## Future
 
 ### stylelint
