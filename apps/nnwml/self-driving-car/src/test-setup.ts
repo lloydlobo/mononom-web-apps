@@ -1,4 +1,4 @@
-import { ctx, road, traffic } from './main'
+import { carCtx, road, traffic } from './main'
 import { Car, Controls } from './app';
 // ----------------------------------------------------------------------------
 /*

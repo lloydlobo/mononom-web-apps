@@ -41,9 +41,7 @@ export class Car {
 
     if (controlType != 'DUMMY') {
       this.sensor = new Sensor(this);
-      this.brain = new NeuralNetwork(
-        [this.sensor.rayCount, 6, 4]
-      ); // brain => raycount, hidden layer , 4 -> all directions
+      this.brain = new NeuralNetwork([this.sensor.rayCount, 6, 4]); // brain => raycount, hidden layer , 4 -> all directions
     }
     this.controls = new Controls(controlType);
   }
@@ -59,10 +57,11 @@ export class Car {
 
     if (this.sensor) {
       this.sensor.update(roadBorders, traffic);
-      const offsets = this.sensor.readings
-        .map((s: { offset: number; }) => s == null ? 0 : 1 - s.offset);
+      const offsets = this.sensor.readings.map((s: { offset: number }) =>
+        s == null ? 0 : 1 - s.offset
+      );
       const outputs = NeuralNetwork.feedForward(offsets, this.brain);
-      console.log(outputs);
+      // console.log(outputs);
 
       if (this.useBrain) {
         this.controls.forward = outputs[0];
@@ -178,7 +177,6 @@ export class Car {
       this.sensor.draw(ctx);
     } // controlType = 'Dummy' do not get sensors
   }
-
 }
 
 // define as custom element
