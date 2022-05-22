@@ -1,5 +1,5 @@
 import { Level, NeuralNetwork } from '../logic';
-import { lerp } from '../utils';
+import { getRGBA, lerp } from '../utils';
 
 export class Visualizer {
   static drawNetwork(ctx: CanvasRenderingContext2D, network: NeuralNetwork) {
@@ -17,28 +17,24 @@ export class Visualizer {
     const right = left + width;
     const bottom = top + height;
 
-    const { inputs, outputs, weights } = level;
+    const { inputs, outputs, weights, biases } = level; // destructuring level for ease
 
-    // connects the nodes
+    const lineWidthBias = 2;
+    // connects the nodes with yellow (+ve) & blue (-ve) lines
     for (let i = 0; i < inputs.length; i += 1) {
       for (let j = 0; j < outputs.length; j += 1) {
         ctx.beginPath();
         ctx.moveTo(Visualizer.getNodeX(inputs, i, left, right), bottom);
         ctx.lineTo(Visualizer.getNodeX(outputs, j, left, right), top);
         ctx.lineWidth = 2;
-        const value: number = weights[i][j]; // yellow for +ve and blue for -ve values -> values close to 0 are almost transparant. we care when selecting colors and not if value is -ve or +ve
-        const alpha: number = Math.abs(value); // alpha takes +ve units, weights are -1<0<1
-        const R: number = ((value < 0) as boolean) ? 0 : 255;
-        const G: number = R; // Red and Green make Yellow
-        const B: number = ((value > 0) as boolean) ? 0 : 255;
         // color depending on weight
-        ctx.strokeStyle = 'rgba(' + R + ',' + G + ',' + B + ',' + alpha + ')';
+        ctx.strokeStyle = getRGBA(weights[i][j]);
         ctx.stroke();
       }
     }
 
     const nodeRadius = 18;
-
+    // Input Nodes
     for (let i = 0; i < inputs.length; i += 1) {
       const x = Visualizer.getNodeX(inputs, i, left, right);
 
@@ -47,13 +43,20 @@ export class Visualizer {
       ctx.fillStyle = 'white';
       ctx.fill();
     }
-
+    // Output nodes
     for (let i = 0; i < outputs.length; i += 1) {
       const x = Visualizer.getNodeX(outputs, i, left, right);
       ctx.beginPath();
-      ctx.arc(x, top, nodeRadius, 0, Math.PI * 2);
+      ctx.arc(x, top, (nodeRadius * 60) / 100, 0, Math.PI * 2); // makes node 40% small to see biases
       ctx.fillStyle = 'white';
       ctx.fill();
+
+      // draw biases as a contour around the output nodes
+      ctx.beginPath();
+      ctx.lineWidth = lineWidthBias;
+      ctx.arc(x, top, nodeRadius, 0, Math.PI * 2);
+      ctx.strokeStyle = getRGBA(biases[i]);
+      ctx.stroke();
     }
   }
 
