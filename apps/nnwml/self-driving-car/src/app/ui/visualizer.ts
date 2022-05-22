@@ -37,15 +37,26 @@ export class Visualizer {
     // Input Nodes
     for (let i = 0; i < inputs.length; i += 1) {
       const x = Visualizer.getNodeX(inputs, i, left, right);
+      // visual trick black nodes to overlap connections visually
+      ctx.beginPath();
+      ctx.arc(x, bottom, nodeRadius, 0, Math.PI * 2); // full node radius
+      ctx.fillStyle = 'black';
+      ctx.fill();
 
       ctx.beginPath();
-      ctx.arc(x, bottom, nodeRadius, 0, Math.PI * 2);
+      ctx.arc(x, bottom, (nodeRadius * 60) / 100, 0, Math.PI * 2);
       ctx.fillStyle = 'white';
       ctx.fill();
     }
     // Output nodes
     for (let i = 0; i < outputs.length; i += 1) {
       const x = Visualizer.getNodeX(outputs, i, left, right);
+      // visual trick black nodes to overlap connections visually
+      ctx.beginPath();
+      ctx.arc(x, top, nodeRadius, 0, Math.PI * 2); // full node radius
+      ctx.fillStyle = 'black';
+      ctx.fill();
+
       ctx.beginPath();
       ctx.arc(x, top, (nodeRadius * 60) / 100, 0, Math.PI * 2); // makes node 40% small to see biases
       ctx.fillStyle = 'white';
@@ -54,8 +65,9 @@ export class Visualizer {
       // draw biases as a contour around the output nodes
       ctx.beginPath();
       ctx.lineWidth = lineWidthBias;
-      ctx.arc(x, top, nodeRadius, 0, Math.PI * 2);
+      ctx.arc(x, top, (nodeRadius * 80) / 100, 0, Math.PI * 2); // 80% of radius
       ctx.strokeStyle = getRGBA(biases[i]);
+
       ctx.stroke();
     }
   }
