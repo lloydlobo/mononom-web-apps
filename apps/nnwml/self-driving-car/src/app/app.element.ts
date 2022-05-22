@@ -1,3 +1,5 @@
+import './app.element.scss';
+
 export class AppElement extends HTMLElement {
   public static observedAttributes = [];
 
@@ -5,12 +7,13 @@ export class AppElement extends HTMLElement {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const title = 'Self-driving car - No libraries';
     this.innerHTML = `
-      <canvas id="myCanvas"></canvas>
+      <canvas id="carCanvas"></canvas>
+
+      <canvas id="networkCanvas"></canvas>
       `;
   }
 }
 customElements.define('mononom-web-apps-root', AppElement);
 
-import './app.element.scss';
-import './features/road';
-import './features/sensor';
+// import './features/road';
+// import './features/sensor';
