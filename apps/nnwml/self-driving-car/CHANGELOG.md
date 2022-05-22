@@ -2,6 +2,10 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [1.0.3](https://github.com/lloydlobo/mononom-web-apps/compare/nnwml-self-driving-car-1.0.2...nnwml-self-driving-car-1.0.3) (2022-05-22)
+
+
+
 # [1.0.0](https://github.com/lloydlobo/mononom-web-apps/compare/nnwml-self-driving-car-0.1.0...nnwml-self-driving-car-1.0.0) (2022-05-22)
 
 ### Features
