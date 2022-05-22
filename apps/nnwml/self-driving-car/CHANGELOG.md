@@ -2,6 +2,21 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [1.0.0](https://github.com/lloydlobo/mononom-web-apps/compare/nnwml-self-driving-car-0.1.0...nnwml-self-driving-car-1.0.0) (2022-05-22)
+
+
+### Features
+
+* add neural network levels and connect it with car & sensor ([#6](https://github.com/lloydlobo/mononom-web-apps/issues/6)) ([0f82af3](https://github.com/lloydlobo/mononom-web-apps/commit/0f82af367e0392f9c10686e5ef8f4e9a3a5dcf65))
+* simulate traffic dummy cars for testing collision detection ([#5](https://github.com/lloydlobo/mononom-web-apps/issues/5)) ([6633d18](https://github.com/lloydlobo/mononom-web-apps/commit/6633d187500055d952655ea02a07859d1d10d5e6))
+
+
+### Performance Improvements
+
+* add border poly collision detection btw cars ([1c29036](https://github.com/lloydlobo/mononom-web-apps/commit/1c29036a2b920367c01f6d4f982c60070fdceda7))
+
+
+
 ## 0.1.0 (2022-05-21)
 
 ### Bug Fixes
