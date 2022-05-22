@@ -1,4 +1,4 @@
-import { NeuralNetwork } from '../logic';
+import { Level, NeuralNetwork } from '../logic';
 import { lerp } from '../utils';
 
 export class Visualizer {
@@ -13,11 +13,12 @@ export class Visualizer {
   }
 
   // static draw method
-  static drawLevel(ctx, level, left, top, width, height) {
+  static drawLevel(ctx, level: Level, left, top, width, height) {
     const right = left + width;
     const bottom = top + height;
 
-    const { inputs, outputs } = level;
+    const { inputs, outputs, weights } = level;
+
     // connects the nodes
     for (let i = 0; i < inputs.length; i += 1) {
       for (let j = 0; j < outputs.length; j += 1) {
@@ -25,7 +26,13 @@ export class Visualizer {
         ctx.moveTo(Visualizer.getNodeX(inputs, i, left, right), bottom);
         ctx.lineTo(Visualizer.getNodeX(outputs, j, left, right), top);
         ctx.lineWidth = 2;
-        ctx.strokeStyle = 'orange';
+        const value: number = weights[i][j]; // yellow for +ve and blue for -ve values -> values close to 0 are almost transparant. we care when selecting colors and not if value is -ve or +ve
+        const alpha: number = Math.abs(value); // alpha takes +ve units, weights are -1<0<1
+        const R: number = ((value < 0) as boolean) ? 0 : 255;
+        const G: number = R; // Red and Green make Yellow
+        const B: number = ((value > 0) as boolean) ? 0 : 255;
+        // color depending on weight
+        ctx.strokeStyle = 'rgba(' + R + ',' + G + ',' + B + ',' + alpha + ')';
         ctx.stroke();
       }
     }
