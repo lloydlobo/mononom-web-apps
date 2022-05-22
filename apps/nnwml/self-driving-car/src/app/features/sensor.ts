@@ -5,7 +5,6 @@ export type RoadBordersType = { x: number; y: number }[][];
 
 type RayType = { x: number; y: number }[];
 type RaysType = { x: number; y: number }[][];
-type ReadingsType = { x: number; y: number }[];
 type TouchType = { x: number; y: number; offset: number };
 
 export class Sensor {
@@ -14,7 +13,7 @@ export class Sensor {
   raySpread: number;
   rays: RaysType;
   car: Car;
-  readings: ReadingsType;
+  readings;
   constructor(car: Car) {
     this.car = car;
     this.rayCount = 5;
@@ -27,7 +26,7 @@ export class Sensor {
 
   update(roadBorders: RoadBordersType, traffic): void {
     this.castRays() as void;
-    this.readings = [] as ReadingsType;
+    this.readings = [];
     for (let i = 0; i < this.rays.length; i++) {
       // const ray = this.rays[i];
       // const closest = this.getClosestIntersection(ray, roadBorders);

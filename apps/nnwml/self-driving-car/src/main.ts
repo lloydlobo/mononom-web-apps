@@ -10,19 +10,10 @@ export const ctx = canvas.getContext('2d') as CanvasRenderingContext2D; // a dra
 
 export const road = new Road(canvas.width / 2, canvas.width * 0.9);
 
-export const car: Car = new Car(road.getLaneCenter(1), 100, 30, 50, 'KEYS');
+export const car: Car = new Car(road.getLaneCenter(1), 100, 30, 50, 'AI');
 export const traffic: Car[] = [
   new Car(road.getLaneCenter(1), -100, 30, 50, 'DUMMY', 2),
 ];
-
-/**
- █████╗ ███╗   ██╗██╗███╗   ███╗ █████╗ ████████╗███████╗
-██╔══██╗████╗  ██║██║████╗ ████║██╔══██╗╚══██╔══╝██╔════╝
-███████║██╔██╗ ██║██║██╔████╔██║███████║   ██║   █████╗
-██╔══██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║   ██║   ██╔══╝
-██║  ██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║   ██║   ███████╗
-╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝
-  */
 
 animate();
 
@@ -35,7 +26,7 @@ export function animate(): void {
   canvas.height = window.innerHeight;
 
   ctx.save();
-  const carPositionNearBottom = -1 * car.y + (canvas.height * 61.8) / 100; // -car.y is top of the screen
+  const carPositionNearBottom = -1 * car.y + (canvas.height * 70) / 100; // -car.y is top of the screen
 
   ctx.translate(0, carPositionNearBottom); // moves car down from top of screen to see what's ahead of the car
 
