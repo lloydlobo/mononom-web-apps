@@ -17,7 +17,8 @@ export const networkCtx = networkCanvas.getContext(
 ) as CanvasRenderingContext2D;
 
 export const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
-export const car: Car = new Car(road.getLaneCenter(1), 100, 30, 50, 'AI');
+// 'AI' for intelligence and 'KEYS' for keyboard -> replace AI with KEYS to Debug
+export const car: Car = new Car(road.getLaneCenter(1), 100, 30, 50, 'KEYS');
 export const traffic: Car[] = [
   new Car(road.getLaneCenter(1), -100, 30, 50, 'DUMMY', 2),
 ];

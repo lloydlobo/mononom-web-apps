@@ -45,7 +45,7 @@ export class Visualizer {
 
       ctx.beginPath();
       ctx.arc(x, bottom, (nodeRadius * 60) / 100, 0, Math.PI * 2);
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = getRGBA(inputs[i]);
       ctx.fill();
     }
     // Output nodes
@@ -59,7 +59,7 @@ export class Visualizer {
 
       ctx.beginPath();
       ctx.arc(x, top, (nodeRadius * 60) / 100, 0, Math.PI * 2); // makes node 40% small to see biases
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = getRGBA(outputs[i]);
       ctx.fill();
 
       // draw biases as a contour around the output nodes
