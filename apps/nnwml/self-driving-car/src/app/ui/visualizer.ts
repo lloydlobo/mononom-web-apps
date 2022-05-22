@@ -18,34 +18,7 @@ export class Visualizer {
     const bottom = top + height;
 
     const { inputs, outputs } = level;
-    const nodeRadius = 18;
-
-    for (let i = 0; i < inputs.length; i += 1) {
-      const x = lerp(
-        left,
-        right,
-        level.inputs.length == 1 ? 0.5 : ((i / (inputs.length - 1)) as number)
-      );
-
-      ctx.beginPath();
-      ctx.arc(x, bottom, nodeRadius, 0, Math.PI * 2);
-      ctx.fillStyle = 'white';
-      ctx.fill();
-    }
-
-    for (let i = 0; i < outputs.length; i += 1) {
-      const x = lerp(
-        left,
-        right,
-        level.outputs.length == 1 ? 0.5 : ((i / (outputs.length - 1)) as number)
-      );
-
-      ctx.beginPath();
-      ctx.arc(x, top, nodeRadius, 0, Math.PI * 2);
-      ctx.fillStyle = 'white';
-      ctx.fill();
-    }
-
+    // connects the nodes
     for (let i = 0; i < inputs.length; i += 1) {
       for (let j = 0; j < outputs.length; j += 1) {
         ctx.beginPath();
@@ -55,6 +28,25 @@ export class Visualizer {
         ctx.strokeStyle = 'orange';
         ctx.stroke();
       }
+    }
+
+    const nodeRadius = 18;
+
+    for (let i = 0; i < inputs.length; i += 1) {
+      const x = Visualizer.getNodeX(inputs, i, left, right);
+
+      ctx.beginPath();
+      ctx.arc(x, bottom, nodeRadius, 0, Math.PI * 2);
+      ctx.fillStyle = 'white';
+      ctx.fill();
+    }
+
+    for (let i = 0; i < outputs.length; i += 1) {
+      const x = Visualizer.getNodeX(outputs, i, left, right);
+      ctx.beginPath();
+      ctx.arc(x, top, nodeRadius, 0, Math.PI * 2);
+      ctx.fillStyle = 'white';
+      ctx.fill();
     }
   }
 
