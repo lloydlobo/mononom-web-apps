@@ -1,41 +1,20 @@
 import './app/app.element.ts';
 import { Car, Road, Visualizer } from './app';
 
-export const carCanvas = document.getElementById(
-  'carCanvas'
-) as HTMLCanvasElement;
+export const carCanvas = document.getElementById('carCanvas') as HTMLCanvasElement; //prettier-ignore
 carCanvas.width = 200;
 
-const btnBrainSave: HTMLElement = document.getElementById(
-  'btnBrainSave'
-) as HTMLElement;
-const btnBrainDiscard: HTMLElement = document.getElementById(
-  'btnBrainDiscard'
-) as HTMLElement;
+export const btnBrainSave = document.getElementById('btnBrainSave') as HTMLElement; //prettier-ignore
+export const btnBrainDiscard = document.getElementById('btnBrainDiscard') as HTMLElement; //prettier-ignore
 
-// btnBrainSave.addEventListener<'click'>('click', () => {
-//   save();
-//   console.log('save');
-// });
-
-// btnBrainDiscard.addEventListener<'click'>('click', () => {
-// discard();
-// console.log('discard');
-// });
-
-export const networkCanvas = document.getElementById(
-  'networkCanvas'
-) as HTMLCanvasElement;
+export const networkCanvas = document.getElementById('networkCanvas') as HTMLCanvasElement; //prettier-ignore
 networkCanvas.width = 300;
 
 export const carCtx = carCanvas.getContext('2d') as CanvasRenderingContext2D; // a drawing context is a way to draw on a canvas
-export const networkCtx = networkCanvas.getContext(
-  '2d'
-) as CanvasRenderingContext2D;
+export const networkCtx = networkCanvas.getContext('2d') as CanvasRenderingContext2D; //prettier-ignore
 
 export const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9); // 0.9 reduces the width for showing road borders
 
-// export const car: Car = new Car(road.getLaneCenter(1), 100, 30, 50, 'AI');
 const N = 100; // 100 cars going in parallel
 export const cars = generateCars(N);
 let bestCar = cars[0]; // first car but it will update on every frame
@@ -45,6 +24,9 @@ if (localStorage.getItem('bestBrain')) {
 
 export const traffic: Car[] = [
   new Car(road.getLaneCenter(1), -100, 30, 50, 'DUMMY', 2),
+  new Car(road.getLaneCenter(0), -300, 30, 50, 'DUMMY', 2),
+  new Car(road.getLaneCenter(2), -300, 30, 50, 'DUMMY', 2),
+  new Car(road.getLaneCenter(0), -600, 30, 50, 'DUMMY', 2),
 ];
 
 // 'AI' for intelligence and 'KEYS' for keyboard -> replace AI with KEYS to Debug
@@ -60,19 +42,17 @@ animate();
 
 btnBrainSave.addEventListener<'click'>('click', () => {
   save();
-  console.log('save');
+  // console.log('save');
 });
-
 btnBrainDiscard.addEventListener<'click'>('click', () => {
   discard();
-  console.log('discard');
+  // console.log('discard');
 });
 
 // code to save the best car in local storage
 export function save() {
   localStorage.setItem('bestBrain', JSON.stringify(bestCar.brain));
 }
-
 export function discard() {
   localStorage.removeItem('bestBrain');
 }
