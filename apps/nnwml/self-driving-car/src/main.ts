@@ -18,7 +18,7 @@ export const networkCtx = networkCanvas.getContext(
 
 export const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
 // 'AI' for intelligence and 'KEYS' for keyboard -> replace AI with KEYS to Debug
-export const car: Car = new Car(road.getLaneCenter(1), 100, 30, 50, 'KEYS');
+export const car: Car = new Car(road.getLaneCenter(1), 100, 30, 50, 'AI');
 export const traffic: Car[] = [
   new Car(road.getLaneCenter(1), -100, 30, 50, 'DUMMY', 2),
 ];
@@ -28,7 +28,7 @@ networkCanvas.width = 400;
 
 animate();
 
-export function animate(): void {
+export function animate(time?: number): void {
   for (let i = 0; i < traffic.length; i += 1) {
     traffic[i].update(road.borders, []); // empty array to prevent traffic to not damage itself
   } /* can pass in empty array to keey traffic invulnerable in update */
@@ -45,7 +45,8 @@ export function animate(): void {
   }
   car.draw(carCtx, 'blue'); /* draw car on the canvas in the DOM */
   carCtx.restore(); // restores the canvas to its previous state from save()
-
+  // 20220523110534 animate() -> animate(time), time is sent as a callback automatically to => reqAniFrm(animate)
+  networkCtx.lineDashOffset = (-1 * time) / 50; // -1 reverses the order of linedashes animating
   Visualizer.drawNetwork(networkCtx, car.brain);
   requestAnimationFrame(animate); // calls the animate() method again and again gives the illusion of movement of the car
 }

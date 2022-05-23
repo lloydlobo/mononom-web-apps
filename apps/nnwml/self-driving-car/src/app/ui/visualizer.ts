@@ -22,21 +22,26 @@ export class Visualizer {
           ((network.levels.length === 1) as boolean)
             ? 0.5
             : i / (network.levels.length - 1)
-        ); // 1st @param => want bottommost level to start at y value that still can fit in screen
+        ); // 1st @param => want bottom most level to start at y value that still can fit in screen
 
+      // line dash crazy animation
+      ctx.setLineDash([7, 3]); // drawn before drawing the levels as a root property
       Visualizer.drawLevel(
         ctx,
-        network.levels[1],
+        network.levels[i],
         left,
         levelTop,
         width,
-        levelHeight
+        levelHeight,
+        ((i === network.levels.length - 1) as boolean)
+          ? ['⇑', '⇐', '⇒', '⇓']
+          : []
       );
     }
   }
 
   // static draw method
-  static drawLevel(ctx, level: Level, left, top, width, height) {
+  static drawLevel(ctx, level: Level, left, top, width, height, outputLabels) {
     const right = left + width;
     const bottom = top + height;
 
@@ -57,6 +62,7 @@ export class Visualizer {
     }
 
     const nodeRadius = 18;
+
     // Input Nodes
     for (let i = 0; i < inputs.length; i += 1) {
       const x = Visualizer.getNodeX(inputs, i, left, right);
@@ -93,6 +99,20 @@ export class Visualizer {
       ctx.setLineDash([3, 3]); // biases are perforated 3px of line, 3px of space
       ctx.stroke();
       ctx.setLineDash([]); // reset it
+
+      //outputLabels nodes symbols
+      if (outputLabels[i] as boolean) {
+        ctx.beginPath();
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = 'orange';
+        ctx.strokeStyle = 'red';
+        const fontSizeScale = 1.2;
+        ctx.font = (nodeRadius * fontSizeScale + 'px Arial') as string;
+        ctx.fillText(outputLabels[i], x, top + nodeRadius * -0); // nodeRadius * 0.1 aligns the symbol fill
+        ctx.lineWidth = 1.2;
+        ctx.strokeText(outputLabels[i], x, top);
+      }
     }
   }
 
@@ -110,6 +130,11 @@ export class Visualizer {
 // ARCHIVE
 
 /**
+ * 
+ * 20220523105307
+ * //   //  ⭠ ⭢ ⭡ ⭣ ; ◀ ▶ ▲ ▼ http://xahlee.info/comp/unicode_arrows.html
+ * // '↑', '←', '→', '↓' symbols from https://unicode.org/charts/nameslist/n_2190.html
+ * 
  * 20220523101306
  * Drawing the second level has some problems:
  * 1. we are drawing the levels bottoms up 
