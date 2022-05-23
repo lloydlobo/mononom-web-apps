@@ -23,10 +23,23 @@ export const networkCtx =
 export const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9); // 0.9 reduces the width for showing road borders
 
 // 'AI' for intelligence and 'KEYS' for keyboard -> replace AI with KEYS to Debug
-export const car: Car = new Car(road.getLaneCenter(1), 100, 30, 50, 'AI');
+
+// export const car: Car = new Car(road.getLaneCenter(1), 100, 30, 50, 'AI');
+
+const N = 100; // 100 cars going in parallel
+export const cars = generateCars(N);
+
 export const traffic: Car[] = [
   new Car(road.getLaneCenter(1), -100, 30, 50, 'DUMMY', 2),
 ];
+
+export function generateCars(N) {
+  const cars = [];
+  for (let i = 0; i <= N; i += 1) {
+    cars.push(new Car(road.getLaneCenter(1), 100, 30, 50, 'AI'))
+  }
+  return cars;
+}
 
 animate();
 
@@ -34,22 +47,41 @@ export function animate(time?: number): void {
   for (let i = 0; i < traffic.length; i += 1) {
     traffic[i].update(road.borders, []); // empty array to prevent traffic to not damage itself
   } /* can pass in empty array to keey traffic invulnerable in update */
-  car.update(road.borders, traffic);
+
+  for (let i = 0; i < cars.length; i += 1) {
+    cars[i].update(road.borders, traffic);
+  }
+  // create new array with only y values of car; math.min doesn't work with value so spread(...)it & return the car whose y value is the minimum of all y values
+  // minimum y value = top most window height in the DOM
+  const bestCar = cars.find(c => (c.y === Math.min(...cars.map(c => c.y))) as boolean);
+
   carCanvas.height = window.innerHeight;
   networkCanvas.height = window.innerHeight;
   carCtx.save();
 
-  const carPositionNearBottom = -1 * car.y + (carCanvas.height * 70) / 100; // -car.y is top of the screen
+  const carPositionNearBottom = -1 * bestCar.y + (carCanvas.height * 70) / 100; // -car.y is top of the screen
   carCtx.translate(0, carPositionNearBottom); // moves car down from top of screen to see what's ahead of the car
+
   road.draw(carCtx);
+
   for (let i = 0; i < traffic.length; i += 1) {
     traffic[i].draw(carCtx, 'red');
   }
-  car.draw(carCtx, 'blue'); /* draw car on the canvas in the DOM */
+
+  carCtx.globalAlpha = .2; // decrease opacity of N=100 clone cars
+  for (let i = 0; i < cars.length; i += 1) {
+    cars[i].draw(carCtx, 'blue'); /* draw car on the canvas in the DOM */
+  }
+  carCtx.globalAlpha = 1;
+  bestCar.draw(carCtx, 'blue', true); /* emphasize this car's transparency and add 3rd parameter(true) */
+
   carCtx.restore(); // restores the canvas to its previous state from save()
+
   // 20220523110534 animate() -> animate(time), time is sent as a callback automatically to => reqAniFrm(animate)
   networkCtx.lineDashOffset = (-1 * time) / 50; // -1 reverses the order of linedashes animating
-  Visualizer.drawNetwork(networkCtx, car.brain);
+
+  Visualizer.drawNetwork(networkCtx, bestCar.brain);
+
   requestAnimationFrame(animate); // calls the animate() method again and again gives the illusion of movement of the car
 }
 
