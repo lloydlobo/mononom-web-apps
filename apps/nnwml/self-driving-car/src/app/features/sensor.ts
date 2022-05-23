@@ -17,7 +17,7 @@ export class Sensor {
   constructor(car: Car) {
     this.car = car;
     this.rayCount = 5;
-    this.rayLength = 100;
+    this.rayLength = 150;
     this.raySpread = (Math.PI / 2) as number; // PI => ratio of the circumference of a circle to its diameter.
 
     this.rays = [];
