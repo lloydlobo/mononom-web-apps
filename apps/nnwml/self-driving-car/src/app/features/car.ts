@@ -160,7 +160,7 @@ export class Car {
     this.y -= Math.cos(this.angle) * this.speed;
   }
 
-  draw(ctx: CanvasRenderingContext2D, color) {
+  draw(ctx: CanvasRenderingContext2D, color, drawSensor = false) {
     if (this.damaged) {
       ctx.fillStyle = 'grey';
     } else {
@@ -173,7 +173,7 @@ export class Car {
       ctx.lineTo(this.polygon[i].x, this.polygon[i].y);
     }
     ctx.fill();
-    if (this.sensor) {
+    if (this.sensor && drawSensor) {
       this.sensor.draw(ctx);
     } // controlType = 'Dummy' do not get sensors
   }

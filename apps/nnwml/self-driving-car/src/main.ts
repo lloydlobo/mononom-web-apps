@@ -1,55 +1,108 @@
-import { Car, Road, Visualizer } from './app';
-// we include our base SASS here to ensure it is loaded
-// and applied before any component specific style -> tip from MDN
-// import './app.element.scss';
 import './app/app.element.ts';
-// import './app/features/road';
-// import './app/features/sensor';
-// import './app/features/car';
+import { Car, Road, Visualizer } from './app';
 
-export const carCanvas =
-  document.getElementById('carCanvas') as HTMLCanvasElement;
+export const carCanvas = document.getElementById('carCanvas') as HTMLCanvasElement; //prettier-ignore
 carCanvas.width = 200;
 
-export const networkCanvas =
-  document.getElementById('networkCanvas') as HTMLCanvasElement;
+export const btnBrainSave = document.getElementById('btnBrainSave') as HTMLElement; //prettier-ignore
+export const btnBrainDiscard = document.getElementById('btnBrainDiscard') as HTMLElement; //prettier-ignore
+
+export const networkCanvas = document.getElementById('networkCanvas') as HTMLCanvasElement; //prettier-ignore
 networkCanvas.width = 300;
 
-export const carCtx =
-  carCanvas.getContext('2d') as CanvasRenderingContext2D; // a drawing context is a way to draw on a canvas
-export const networkCtx =
-  networkCanvas.getContext('2d') as CanvasRenderingContext2D;
+export const carCtx = carCanvas.getContext('2d') as CanvasRenderingContext2D; // a drawing context is a way to draw on a canvas
+export const networkCtx = networkCanvas.getContext('2d') as CanvasRenderingContext2D; //prettier-ignore
 
 export const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9); // 0.9 reduces the width for showing road borders
 
-// 'AI' for intelligence and 'KEYS' for keyboard -> replace AI with KEYS to Debug
-export const car: Car = new Car(road.getLaneCenter(1), 100, 30, 50, 'AI');
+const N = 100; // 100 cars going in parallel
+export const cars = generateCars(N);
+let bestCar = cars[0]; // first car but it will update on every frame
+if (localStorage.getItem('bestBrain')) {
+  bestCar.brain = JSON.parse(localStorage.getItem('bestBrain'));
+} // parsing as localStorage only works with strings
+
 export const traffic: Car[] = [
   new Car(road.getLaneCenter(1), -100, 30, 50, 'DUMMY', 2),
+  new Car(road.getLaneCenter(0), -300, 30, 50, 'DUMMY', 2),
+  new Car(road.getLaneCenter(2), -300, 30, 50, 'DUMMY', 2),
+  new Car(road.getLaneCenter(0), -600, 30, 50, 'DUMMY', 2),
 ];
 
+// 'AI' for intelligence and 'KEYS' for keyboard -> replace AI with KEYS to Debug
+export function generateCars(N) {
+  const cars = [];
+  for (let i = 0; i <= N; i += 1) {
+    cars.push(new Car(road.getLaneCenter(1), 100, 30, 50, 'AI'));
+  }
+  return cars;
+}
+
 animate();
+
+btnBrainSave.addEventListener<'click'>('click', () => {
+  save();
+  // console.log('save');
+});
+btnBrainDiscard.addEventListener<'click'>('click', () => {
+  discard();
+  // console.log('discard');
+});
+
+// code to save the best car in local storage
+export function save() {
+  localStorage.setItem('bestBrain', JSON.stringify(bestCar.brain));
+}
+export function discard() {
+  localStorage.removeItem('bestBrain');
+}
 
 export function animate(time?: number): void {
   for (let i = 0; i < traffic.length; i += 1) {
     traffic[i].update(road.borders, []); // empty array to prevent traffic to not damage itself
   } /* can pass in empty array to keey traffic invulnerable in update */
-  car.update(road.borders, traffic);
+
+  for (let i = 0; i < cars.length; i += 1) {
+    cars[i].update(road.borders, traffic);
+  }
+  // create new array with only y values of car; math.min doesn't work with value so spread(...)it & return the car whose y value is the minimum of all y values
+  // minimum y value = top most window height in the DOM
+  bestCar = cars.find(
+    (c) => (c.y === Math.min(...cars.map((c) => c.y))) as boolean
+  ); // todo => add better fitness functions that rewards and penalizes the cars
+  // center of lane, going too sidewards etc
+
   carCanvas.height = window.innerHeight;
   networkCanvas.height = window.innerHeight;
   carCtx.save();
 
-  const carPositionNearBottom = -1 * car.y + (carCanvas.height * 70) / 100; // -car.y is top of the screen
+  const carPositionNearBottom = -1 * bestCar.y + (carCanvas.height * 70) / 100; // -car.y is top of the screen
   carCtx.translate(0, carPositionNearBottom); // moves car down from top of screen to see what's ahead of the car
+
   road.draw(carCtx);
+
   for (let i = 0; i < traffic.length; i += 1) {
     traffic[i].draw(carCtx, 'red');
   }
-  car.draw(carCtx, 'blue'); /* draw car on the canvas in the DOM */
+
+  carCtx.globalAlpha = 0.2; // decrease opacity of N=100 clone cars
+  for (let i = 0; i < cars.length; i += 1) {
+    cars[i].draw(carCtx, 'blue'); /* draw car on the canvas in the DOM */
+  }
+  carCtx.globalAlpha = 1;
+  bestCar.draw(
+    carCtx,
+    'blue',
+    true
+  ); /* emphasize this car's transparency and add 3rd parameter(true) */
+
   carCtx.restore(); // restores the canvas to its previous state from save()
+
   // 20220523110534 animate() -> animate(time), time is sent as a callback automatically to => reqAniFrm(animate)
   networkCtx.lineDashOffset = (-1 * time) / 50; // -1 reverses the order of linedashes animating
-  Visualizer.drawNetwork(networkCtx, car.brain);
+
+  Visualizer.drawNetwork(networkCtx, bestCar.brain);
+
   requestAnimationFrame(animate); // calls the animate() method again and again gives the illusion of movement of the car
 }
 
