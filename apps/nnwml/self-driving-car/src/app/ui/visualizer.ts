@@ -12,7 +12,8 @@ export class Visualizer {
     // Visualizer.drawLevel(ctx, network.levels[0], left, top, width, height); // adding new level visuals so diasbled this
     const levelHeight = height / network.levels.length;
 
-    for (let i = 0; i < network.levels.length; i += 1) {
+    // allows the loop to iterate from the last i in the array
+    for (let i = network.levels.length - 1; i >= 0; i--) {
       const levelTop =
         top +
         lerp(
@@ -109,6 +110,15 @@ export class Visualizer {
 // ARCHIVE
 
 /**
+ * 20220523101306
+ * Drawing the second level has some problems:
+ * 1. we are drawing the levels bottoms up 
+ *    for (let i = 0; i < network.levels.length; i += 1) {
+ * 2. the biases are overdrawn by the intermediate level which draws it's input
+ *    value over the previous level's biases.
+ * 3. So reverse the for loop starting point. start from the last i of the array
+ *    for (let i = network.levels.length - 1; i >= 0; i--) { // allows the loop to iterate from the last i in the array
+ * 
  * 20220523100102
  * export class Visualizer {
  * ....
