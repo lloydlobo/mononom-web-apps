@@ -2,6 +2,20 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [1.2.0](https://github.com/lloydlobo/mononom-web-apps/compare/nnwml-self-driving-car-1.1.0...nnwml-self-driving-car-1.2.0) (2022-05-23)
+
+
+### Bug Fixes
+
+* add div wrap to fix overlapping canvas ([79c34d4](https://github.com/lloydlobo/mononom-web-apps/commit/79c34d4ac9b8a278354fe1a68b875cdf504ce77e))
+
+
+### Performance Improvements
+
+* increase sensor ray length ([b4372a7](https://github.com/lloydlobo/mononom-web-apps/commit/b4372a74121dcae423f611cf17321f27849911c2))
+
+
+
 # [1.1.0](https://github.com/lloydlobo/mononom-web-apps/compare/nnwml-self-driving-car-1.0.3...nnwml-self-driving-car-1.1.0) (2022-05-23)
 
 ### Features
