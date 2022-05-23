@@ -51,12 +51,12 @@ export class Level {
   static feedForward(givenInputs: number[], level) {
     for (let i = 0; i < level.inputs.length; i += 1) {
       level.inputs[i] = givenInputs[i];
-
     }
+
     // to get the output - calculate some kind of sum btw value of inputs and weights
+    // use this for managing drawing visualizer weights alpha values
     for (let i = 0; i < level.outputs.length; i += 1) {
       let sum = 0;
-      // const inputs = this.inputs
       for (let j = 0; j < level.inputs.length; j += 1) {
         sum += level.inputs[j] * level.weights[j][i];
       }
