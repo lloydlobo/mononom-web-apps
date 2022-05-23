@@ -9,16 +9,48 @@
 body {
   margin: 0;
   background: darkgray;
-  overflow-x: hidden;
-  text-align: center;
+  overflow: hidden;
+  height: 100vh;
 }
 
-.canvas__wrapper {
+.app-wrapper {
   display: flex;
+  flex-direction: row;
   justify-content: center;
-  align-items: center;
-  margin-inline: auto;
+  // align-items: center;
+  min-height: 100vh;
+  // height: 100%;
+  // width: 100%;
 }
+
+.vertical-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  border: none;
+  border-radius: 5px;
+  padding-block-start: 5px;
+  padding-block-end: 7px;
+  padding-inline: 5px;
+  margin: 2px;
+  cursor: pointer;
+  background: none;
+}
+
+button:hover {
+  background: blue;
+}
+
+// .canvas__wrapper {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   margin-inline: auto;
+// }
 
 #carCanvas {
   background: lightgray;

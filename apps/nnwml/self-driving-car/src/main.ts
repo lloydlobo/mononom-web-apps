@@ -1,11 +1,10 @@
 import { Car, Road, Visualizer } from './app';
-// we include our base SASS here to ensure it is loaded
-// and applied before any component specific style -> tip from MDN
-// import './app.element.scss';
 import './app/app.element.ts';
-// import './app/features/road';
-// import './app/features/sensor';
-// import './app/features/car';
+
+// const btnBrainSave = document.getElementById('brainSave');
+// const btnBrainDiscard = document.getElementById('brainDiscard');
+// btnBrainSave.addEventListener('click', (() => save()));
+// btnBrainDiscard.addEventListener('click', save);
 
 export const carCanvas =
   document.getElementById('carCanvas') as HTMLCanvasElement;
@@ -28,6 +27,12 @@ export const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9); // 0.9
 
 const N = 100; // 100 cars going in parallel
 export const cars = generateCars(N);
+let bestCar = cars[0]; // first car but it will update on every frame
+if (localStorage.getItem('bestBrain')) {
+  bestCar.brain = JSON.parse(
+    localStorage.getItem('bestBrain')
+  );
+} // parsing as localStorage only works with strings
 
 export const traffic: Car[] = [
   new Car(road.getLaneCenter(1), -100, 30, 50, 'DUMMY', 2),
@@ -43,6 +48,13 @@ export function generateCars(N) {
 
 animate();
 
+// code t save the best car
+
+function save() {
+  localStorage.setItem('bestBrain',
+    JSON.stringify(bestCar.brain));
+}
+
 export function animate(time?: number): void {
   for (let i = 0; i < traffic.length; i += 1) {
     traffic[i].update(road.borders, []); // empty array to prevent traffic to not damage itself
@@ -53,7 +65,7 @@ export function animate(time?: number): void {
   }
   // create new array with only y values of car; math.min doesn't work with value so spread(...)it & return the car whose y value is the minimum of all y values
   // minimum y value = top most window height in the DOM
-  const bestCar = cars.find(c => (c.y === Math.min(...cars.map(c => c.y))) as boolean);
+  bestCar = cars.find(c => (c.y === Math.min(...cars.map(c => c.y))) as boolean);
 
   carCanvas.height = window.innerHeight;
   networkCanvas.height = window.innerHeight;
