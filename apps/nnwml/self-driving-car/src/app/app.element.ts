@@ -7,9 +7,10 @@ export class AppElement extends HTMLElement {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const title = 'Self-driving car - No libraries';
     this.innerHTML = `
-      <canvas id="carCanvas"></canvas>
-
-      <canvas id="networkCanvas"></canvas>
+      <div id="canvasWrapper" class="canvas__wrapper">
+        <canvas id="carCanvas"></canvas>
+        <canvas id="networkCanvas"></canvas>
+      </div>
       `;
   }
 }

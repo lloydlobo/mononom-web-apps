@@ -54,18 +54,18 @@ export class Road {
   /* Get Lane Center - regardless of lane count, the car auto adjusts to the center of the lane */
   getLaneCenter(laneIndex: number): number {
     const laneWidth: number = this.width / this.laneCount;
-    const laneCenter: number =
+    return (
       this.left +
       laneWidth / 2 +
-      Math.min(laneIndex, this.laneCount) * laneWidth;
-    return laneCenter;
+      Math.min(laneIndex, this.laneCount - 1) * laneWidth
+    );
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
     ctx.lineWidth = 5 as number;
     ctx.strokeStyle = 'white' as string | CanvasGradient | CanvasPattern;
 
-    for (let i = 1; i < (this.laneCount as number); i += 1) {
+    for (let i = 1; i <= ((this.laneCount - 1) as number); i += 1) {
       /** LINEAR INTERPOLATION or lerp getting values from left to right depending on a percentage i.e. is i/laneCount => * we need to find the x coordinate of the lane lines to draw */
       const x: number = lerp(
         this.left,
@@ -74,7 +74,6 @@ export class Road {
       );
 
       ctx.setLineDash([20, 20]); /* break of 20px and dash of 20px */
-
       ctx.beginPath();
       ctx.moveTo(x, this.top);
       ctx.lineTo(x, this.bottom);

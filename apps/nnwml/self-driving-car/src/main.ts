@@ -1,30 +1,32 @@
-import './app/app.element.ts';
-import './app/features/road';
-import './app/features/sensor';
-import './app/features/car';
 import { Car, Road, Visualizer } from './app';
+// we include our base SASS here to ensure it is loaded
+// and applied before any component specific style -> tip from MDN
+// import './app.element.scss';
+import './app/app.element.ts';
+// import './app/features/road';
+// import './app/features/sensor';
+// import './app/features/car';
 
 export const carCanvas = document.getElementById(
   'carCanvas'
 ) as HTMLCanvasElement; // object
+carCanvas.width = 200;
 export const networkCanvas = document.getElementById(
   'networkCanvas'
 ) as HTMLCanvasElement;
+networkCanvas.width = 300;
 
 export const carCtx = carCanvas.getContext('2d') as CanvasRenderingContext2D; // a drawing context is a way to draw on a canvas
 export const networkCtx = networkCanvas.getContext(
   '2d'
 ) as CanvasRenderingContext2D;
 
-export const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
+export const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9); // 0.9 reduces the width for showing road borders
 // 'AI' for intelligence and 'KEYS' for keyboard -> replace AI with KEYS to Debug
 export const car: Car = new Car(road.getLaneCenter(1), 100, 30, 50, 'AI');
 export const traffic: Car[] = [
   new Car(road.getLaneCenter(1), -100, 30, 50, 'DUMMY', 2),
 ];
-
-carCanvas.width = 300;
-networkCanvas.width = 400;
 
 animate();
 

@@ -47,8 +47,7 @@ export class Visualizer {
 
     const { inputs, outputs, weights, biases } = level; // destructuring level for ease
 
-    const lineWidthBias = 2;
-    // connects the nodes with yellow (+ve) & blue (-ve) lines
+    // connects the nodes -> with yellow (+ve) & blue (-ve) lines
     for (let i = 0; i < inputs.length; i += 1) {
       for (let j = 0; j < outputs.length; j += 1) {
         ctx.beginPath();
@@ -60,7 +59,19 @@ export class Visualizer {
         ctx.stroke();
       }
     }
+    // // weights line connections -> fade in and out -> depending on input neurons value
+    // for (let i = 0; i < outputs.length; i += 1) {
+    //   let sum = 0;
+    //   for (let j = 0; j < inputs.length; j += 1) {
+    //     sum += inputs[j] * weights[j][i];
 
+    //     if (sum > biases[i]) {
+    //       outputs[i] = 1;
+    //     } else {
+    //       outputs[i] = 0;
+    //     }
+    //   }
+    // }
     const nodeRadius = 18;
 
     // Input Nodes
@@ -77,6 +88,7 @@ export class Visualizer {
       ctx.fillStyle = getRGBA(inputs[i]);
       ctx.fill();
     }
+
     // Output nodes
     for (let i = 0; i < outputs.length; i += 1) {
       const x = Visualizer.getNodeX(outputs, i, left, right);
@@ -93,7 +105,7 @@ export class Visualizer {
 
       // draw biases as a contour around the output nodes
       ctx.beginPath();
-      ctx.lineWidth = lineWidthBias;
+      ctx.lineWidth = 2;
       ctx.arc(x, top, (nodeRadius * 80) / 100, 0, Math.PI * 2); // 80% of radius
       ctx.strokeStyle = getRGBA(biases[i]);
       ctx.setLineDash([3, 3]); // biases are perforated 3px of line, 3px of space
@@ -132,6 +144,7 @@ export class Visualizer {
 /**
  * 
  * 20220523105307
+ * https://en.wikipedia.org/wiki/Arrows_(Unicode_block)
  * //   //  ⭠ ⭢ ⭡ ⭣ ; ◀ ▶ ▲ ▼ http://xahlee.info/comp/unicode_arrows.html
  * // '↑', '←', '→', '↓' symbols from https://unicode.org/charts/nameslist/n_2190.html
  * 
