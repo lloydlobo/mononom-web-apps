@@ -9,7 +9,29 @@ export class Visualizer {
     const width = ctx.canvas.width - margin * 2;
     const height = ctx.canvas.height - margin * 2;
 
-    Visualizer.drawLevel(ctx, network.levels[0], left, top, width, height);
+    // Visualizer.drawLevel(ctx, network.levels[0], left, top, width, height); // adding new level visuals so diasbled this
+    const levelHeight = height / network.levels.length;
+
+    for (let i = 0; i < network.levels.length; i += 1) {
+      const levelTop =
+        top +
+        lerp(
+          height - levelHeight,
+          0,
+          ((network.levels.length === 1) as boolean)
+            ? 0.5
+            : i / (network.levels.length - 1)
+        ); // 1st @param => want bottommost level to start at y value that still can fit in screen
+
+      Visualizer.drawLevel(
+        ctx,
+        network.levels[1],
+        left,
+        levelTop,
+        width,
+        levelHeight
+      );
+    }
   }
 
   // static draw method
@@ -87,6 +109,12 @@ export class Visualizer {
 // ARCHIVE
 
 /**
+ * 20220523100102
+ * export class Visualizer {
+ * ....
+ * Visualizer.drawLevel(ctx, network.levels[0], left, top, width, height);
+ * }
+ * 
  * 20220522172334 - to avoid repeating the code we destructure level into {inputs, outputs, ..} // can remove level from level.inputs.length to make the code shorter
  * const nodeRadius = 18;
     for (let i = 0; i < level.inputs.length; i += 1) { 
