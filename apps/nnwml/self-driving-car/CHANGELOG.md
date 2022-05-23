@@ -2,6 +2,17 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [1.1.0](https://github.com/lloydlobo/mononom-web-apps/compare/nnwml-self-driving-car-1.0.3...nnwml-self-driving-car-1.1.0) (2022-05-23)
+
+
+### Features
+
+* add arrows, linedash animate laevel 2 ([d9b1294](https://github.com/lloydlobo/mononom-web-apps/commit/d9b12942ffe69c3f3109f3d07821e9c4c4444f52))
+* draw level 2 visualizer of neural network ([34298d6](https://github.com/lloydlobo/mononom-web-apps/commit/34298d6495847142fd04e9076fcbf9c421054fe0))
+* visualize level 1 of neural network ([#7](https://github.com/lloydlobo/mononom-web-apps/issues/7)) ([226d343](https://github.com/lloydlobo/mononom-web-apps/commit/226d3438fee0ddce4424e1461d59845d9144c3be))
+
+
+
 ## [1.0.3](https://github.com/lloydlobo/mononom-web-apps/compare/nnwml-self-driving-car-1.0.2...nnwml-self-driving-car-1.0.3) (2022-05-22)
 
 
