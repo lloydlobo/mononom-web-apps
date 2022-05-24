@@ -2,6 +2,8 @@
 
 A simple self-driving car application with a neural network model.
 
+**All credit goes to [Dr. Radu Mariescu-Istodor](https://radufromfinland.com/) for teaching this project, and providing resources to make it easy to start with neural networks and machine learning.**
+
 ## Table of Contents
 
 - [Self Driving Car](#self-driving-car)
@@ -27,7 +29,7 @@ nx run nnwml-self-driving-car:version [...options]
 nx run nnwml-self-driving-car:version --push --releaseAs=minor
 ```
 
-#### Versioning options
+### Versioning options
 
 | name                   | type     | default   | description                                                   |
 | ---------------------- | -------- | --------- | ------------------------------------------------------------- |
@@ -56,6 +58,6 @@ nx run nnwml-self-driving-car:version --push --releaseAs=minor
 `nx g nx-stylelint:configuration --project <projectName>`
 <https://github.com/Phillip9587/nx-stylelint>
 
-## clean architecture
+### clean architecture
 
 <https://github.com/guiseek/nx-clean/tree/main/libs/plugin/core>
