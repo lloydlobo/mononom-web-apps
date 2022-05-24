@@ -10,7 +10,6 @@
     "checkJs": true,
     "incremental": true,
     "types": [
-      "node",
       "jest"
     ]
   },

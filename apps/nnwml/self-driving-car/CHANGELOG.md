@@ -2,6 +2,20 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [1.3.0](https://github.com/lloydlobo/mononom-web-apps/compare/nnwml-self-driving-car-1.2.0...nnwml-self-driving-car-1.3.0) (2022-05-24)
+
+
+### Bug Fixes
+
+* add deep non equality operator for iterator ([c41397a](https://github.com/lloydlobo/mononom-web-apps/commit/c41397a86da7bff13275427559729181356c3685))
+
+
+### Performance Improvements
+
+* mutate clone cars and evolve best brain ([82c8491](https://github.com/lloydlobo/mononom-web-apps/commit/82c849162b43490aed8d177e2494c3cdc9297704))
+
+
+
 # [1.2.0](https://github.com/lloydlobo/mononom-web-apps/compare/nnwml-self-driving-car-1.1.0...nnwml-self-driving-car-1.2.0) (2022-05-23)
 
 
