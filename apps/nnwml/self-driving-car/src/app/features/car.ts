@@ -2,7 +2,7 @@ import { NeuralNetwork } from '../logic';
 import { Controls } from './controls';
 import { Sensor, RoadBordersType } from './sensor';
 import { polysIntersect } from '../utils';
-import * as path from 'path';
+// import * as path from 'path';
 
 export type PointsType = { x: number; y: number }[];
 
@@ -18,6 +18,7 @@ export class Car {
   speed: number;
   useBrain: boolean;
   img: HTMLImageElement;
+  mask: HTMLCanvasElement;
 
   constructor(
     public x: number,
@@ -25,7 +26,8 @@ export class Car {
     public width: number,
     public height: number,
     public controlType: string,
-    public maxSpeed = 3
+    public maxSpeed = 3,
+    public color = 'blue'
   ) {
     this.x = x;
     this.y = y;
@@ -52,6 +54,23 @@ export class Car {
     this.img = new Image();
     // this.img.src = path.join(__dirname, '../../assets/car.png');
     this.img.src = 'assets/car.png';
+    // coloring car.png
+    this.mask = document.createElement('canvas');
+    this.mask.width = width;
+    this.mask.height = height;
+    // draw car on mini canvas trick
+
+    const maskCtx = this.mask.getContext('2d');
+    // use arrow function to access maskCtx from the inner scope
+    this.img.onload = () => {
+      maskCtx.fillStyle = color;
+      maskCtx.rect(0, 0, this.width, this.height);
+      maskCtx.fill();
+
+      maskCtx.globalCompositeOperation = 'destination-atop';
+      maskCtx.drawImage(this.img, 0, 0, this.width, this.height);
+      // shows color only when the img overlaps with the pixels => to debug replace image with mask in draw() method `ctx.drawImage(this.img to this.mask)
+    };
   }
 
   // type RoadBordersType = {}
@@ -182,22 +201,32 @@ export class Car {
     // }
     // ctx.fill();
 
+    if (this.sensor && drawSensor) {
+      this.sensor.draw(ctx);
+    } // controlType = 'Dummy' do not get sensors
     ctx.save();
     ctx.translate(this.x, this.y);
     ctx.rotate(-this.angle);
+    // draws the mask of color = 'blue' in constructor over the actual car
+    if (!this.damaged) {
+      ctx.drawImage(
+        this.mask,
+        -this.width / 2,
+        -this.height / 2,
+        this.width,
+        this.height
+      );
+      ctx.globalCompositeOperation = 'multiply'; // similar to photo blend modes -> can see the windows again
+    } // damaged car turn white -> back to the original car.png image
+    // draws the car
     ctx.drawImage(
       this.img,
-
       -this.width / 2,
       -this.height / 2,
       this.width,
       this.height
     );
     ctx.restore(); // avoides translating to happen again and again
-
-    if (this.sensor && drawSensor) {
-      this.sensor.draw(ctx);
-    } // controlType = 'Dummy' do not get sensors
   }
 }
 
