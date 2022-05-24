@@ -2,6 +2,7 @@ import { NeuralNetwork } from '../logic';
 import { Controls } from './controls';
 import { Sensor, RoadBordersType } from './sensor';
 import { polysIntersect } from '../utils';
+import * as path from 'path';
 
 export type PointsType = { x: number; y: number }[];
 
@@ -16,6 +17,7 @@ export class Car {
   sensor: Sensor;
   speed: number;
   useBrain: boolean;
+  img: HTMLImageElement;
 
   constructor(
     public x: number,
@@ -44,6 +46,12 @@ export class Car {
       this.brain = new NeuralNetwork([this.sensor.rayCount, 6, 4]); // brain => raycount, hidden layer , 4 -> all directions
     }
     this.controls = new Controls(controlType);
+
+    // car image
+    // this.img = new Image() as HTMLImageElement;
+    this.img = new Image();
+    // this.img.src = path.join(__dirname, '../../assets/car.png');
+    this.img.src = 'assets/car.png';
   }
 
   // type RoadBordersType = {}
@@ -161,18 +169,32 @@ export class Car {
   }
 
   draw(ctx: CanvasRenderingContext2D, color, drawSensor = false) {
-    if (this.damaged) {
-      ctx.fillStyle = 'grey';
-    } else {
-      ctx.fillStyle = color;
-    }
-    ctx.beginPath();
-    ctx.moveTo(this.polygon[0].x, this.polygon[0].y);
+    // if (this.damaged) {
+    //   ctx.fillStyle = 'grey';
+    // } else {
+    //   ctx.fillStyle = color;
+    // }
+    // ctx.beginPath();
+    // ctx.moveTo(this.polygon[0].x, this.polygon[0].y);
 
-    for (let i = 1; i < this.polygon.length; i += 1) {
-      ctx.lineTo(this.polygon[i].x, this.polygon[i].y);
-    }
-    ctx.fill();
+    // for (let i = 1; i < this.polygon.length; i += 1) {
+    //   ctx.lineTo(this.polygon[i].x, this.polygon[i].y);
+    // }
+    // ctx.fill();
+
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(-this.angle);
+    ctx.drawImage(
+      this.img,
+
+      -this.width / 2,
+      -this.height / 2,
+      this.width,
+      this.height
+    );
+    ctx.restore(); // avoides translating to happen again and again
+
     if (this.sensor && drawSensor) {
       this.sensor.draw(ctx);
     } // controlType = 'Dummy' do not get sensors
@@ -235,7 +257,21 @@ export class Car {
 
 /**
  * ARCHIVE
- *
+ * 20220524130321
+ * adding car image
+ * if (this.damaged) {
+      ctx.fillStyle = 'grey';
+    } else {
+      ctx.fillStyle = color;
+    }
+    ctx.beginPath();
+    ctx.moveTo(this.polygon[0].x, this.polygon[0].y);
+
+    for (let i = 1; i < this.polygon.length; i += 1) {
+      ctx.lineTo(this.polygon[i].x, this.polygon[i].y);
+    }
+    ctx.fill();
+ * 
  * 20220520174006
  * before createPolygon() was featured to replace this type of code
  */

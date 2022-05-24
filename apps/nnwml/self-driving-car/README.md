@@ -15,6 +15,10 @@ A simple self-driving car application with a neural network model.
     - [stylelint](#stylelint)
   - [clean architecture](#clean-architecture)
 
+## Knowledgebase
+
+- [Segment intersection formula explained](https://www.youtube.com/watch?v=fHOLQJo0FjQ) by [Dr. Radu Mariescu-Istodor](https://radufromfinland.com/)
+
 ## Versioning
 
 ### Uses [jscutlery/semver](https://github.com/jscutlery/semver)
