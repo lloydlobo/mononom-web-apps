@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [1.4.0](https://github.com/lloydlobo/mononom-web-apps/compare/nnwml-self-driving-car-1.3.0...nnwml-self-driving-car-1.4.0) (2022-05-24)
+
+
+### Features
+
+* mask car clr & randomize traffic clr ([9b807fd](https://github.com/lloydlobo/mononom-web-apps/commit/9b807fd4abe3ea1bad15e370529f02be35b31a54))
+
+
+
 # [1.3.0](https://github.com/lloydlobo/mononom-web-apps/compare/nnwml-self-driving-car-1.2.0...nnwml-self-driving-car-1.3.0) (2022-05-24)
 
 
