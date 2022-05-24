@@ -1,5 +1,5 @@
 import './app/app.element.ts';
-import { Car, Road, Visualizer } from './app';
+import { Car, NeuralNetwork, Road, Visualizer } from './app';
 
 export const carCanvas = document.getElementById('carCanvas') as HTMLCanvasElement; //prettier-ignore
 carCanvas.width = 200;
@@ -18,15 +18,25 @@ export const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9); // 0.9
 const N = 100; // 100 cars going in parallel
 export const cars = generateCars(N);
 let bestCar = cars[0]; // first car but it will update on every frame
+
 if (localStorage.getItem('bestBrain')) {
-  bestCar.brain = JSON.parse(localStorage.getItem('bestBrain'));
+  for (let i = 0; i < cars.length; i += 1) {
+    cars[i].brain = JSON.parse(localStorage.getItem('bestBrain')); // this is boring without mutation as everyone follows same patern of best car
+    if (i != 0) {
+      NeuralNetwork.mutate(cars[i].brain, 0.1); // mutate by the last parameter
+    }
+  }
+  // bestCar.brain = JSON.parse(localStorage.getItem('bestBrain'));
 } // parsing as localStorage only works with strings
 
 export const traffic: Car[] = [
   new Car(road.getLaneCenter(1), -100, 30, 50, 'DUMMY', 2),
   new Car(road.getLaneCenter(0), -300, 30, 50, 'DUMMY', 2),
   new Car(road.getLaneCenter(2), -300, 30, 50, 'DUMMY', 2),
-  new Car(road.getLaneCenter(0), -600, 30, 50, 'DUMMY', 2),
+  new Car(road.getLaneCenter(0), -500, 30, 50, 'DUMMY', 2),
+  new Car(road.getLaneCenter(1), -500, 30, 50, 'DUMMY', 2),
+  new Car(road.getLaneCenter(1), -700, 30, 50, 'DUMMY', 2),
+  new Car(road.getLaneCenter(2), -700, 30, 50, 'DUMMY', 2),
 ];
 
 // 'AI' for intelligence and 'KEYS' for keyboard -> replace AI with KEYS to Debug

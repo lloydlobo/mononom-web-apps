@@ -1,11 +1,11 @@
+import { lerp } from '../utils';
+
 export class NeuralNetwork {
   levels;
   constructor(neuronCounts: number[]) {
     this.levels = [];
     for (let i = 0; i < neuronCounts.length - 1; i += 1) {
-      this.levels.push(
-        new Level(neuronCounts[i], neuronCounts[i + 1])
-      );
+      this.levels.push(new Level(neuronCounts[i], neuronCounts[i + 1]));
     }
   }
 
@@ -17,13 +17,35 @@ export class NeuralNetwork {
     }
     return outputs;
   }
+
+  static mutate(network, amount = 1) {
+    network.levels.forEach((level) => {
+      for (let i = 0; i < level.biases.length; i += 1) {
+        level.biases[i] = lerp(
+          level.biases[i] as number,
+          Math.random() * 2 - 1,
+          amount
+        ); // 2nd parameter return value btw -1 and 1
+      }
+
+      for (let i = 0; i < level.weights.length; i += 1) {
+        for (let j = 0; j < level.weights[i].length; j += 1) {
+          level.weights[i][j] = lerp(
+            level.weights[i][j] as number,
+            Math.random() * 2 - 1,
+            amount
+          ); // 2nd parameter return value btw -1 and 1
+        }
+      }
+    }); // this is similar to randomize( but for the entire network)
+  } // 1 = 100%, 10% is similar to the current network => if amount is 0 biases, wieght stayy the same, case: in-between the level mutates by the amount
 }
 
 export class Level {
-  inputs: number[]
-  outputs: number[]
-  biases: number[]
-  weights: number[][]
+  inputs: number[];
+  outputs: number[];
+  biases: number[];
+  weights: number[][];
   constructor(inputCount: number, outputCount: number) {
     this.inputs = new Array(inputCount) as number[];
     this.outputs = new Array(outputCount) as number[];
@@ -31,7 +53,9 @@ export class Level {
 
     this.weights = [] as number[][];
     for (let i = 0; i < inputCount; i += 1) {
-      this.weights[i] = new Array(outputCount); /* so far only a shell for connections */
+      this.weights[i] = new Array(
+        outputCount
+      ); /* so far only a shell for connections */
     }
     // build a random brain to begin with
     Level.randomize(this);
@@ -71,11 +95,6 @@ export class Level {
     return level.outputs;
   }
 }
-
-
-
-
-
 
 /**
  * // 4 outputs, 5 inputs
