@@ -23,7 +23,7 @@ if (localStorage.getItem('bestBrain')) {
   for (let i = 0; i < cars.length; i += 1) {
     cars[i].brain = JSON.parse(localStorage.getItem('bestBrain')); // this is boring without mutation as everyone follows same patern of best car
     if (i != 0) {
-      NeuralNetwork.mutate(cars[i].brain, 0.1); // mutate by the last parameter
+      NeuralNetwork.mutate(cars[i].brain, 0.1); // mutate by the last parameter 0.1 is 10% of the bestBrain
     }
   }
   // bestCar.brain = JSON.parse(localStorage.getItem('bestBrain'));
