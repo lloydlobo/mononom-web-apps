@@ -8,7 +8,8 @@
       "always",
       [
         "semver",
-        "nnwml-self-driving-car"
+        "nnwml-self-driving-car",
+        "nnwml-nascar"
       ]
     ],
     "type-enum": [

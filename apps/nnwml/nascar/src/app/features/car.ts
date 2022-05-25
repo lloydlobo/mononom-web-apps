@@ -28,14 +28,14 @@ export class Car {
 
   private move() {
     if (this.controls.forward) {
-      this.y -= 2;
-      // this.speed += this.acceleration;
+      // this.y -= 2;
+      this.speed += this.acceleration;
     }
     if (this.controls.reverse) {
-      this.y += 2;
-      // this.speed -= this.acceleration;
+      // this.y += 2;
+      this.speed -= this.acceleration;
     }
-    this.x -= this.speed;
+    // this.x -= this.speed;
     this.y -= this.speed;
   }
 
