@@ -32,7 +32,7 @@ export class Controls {
           break;
         }
       }
-      console.table(this);
+      // console.table(this);
 
       document.onkeyup = (event) => {
         switch (event.key) {
@@ -52,7 +52,7 @@ export class Controls {
             this.reverse = false;
           }
         }
-        console.table(this);
+        // console.table(this);
       }; // arrow => allows this to access the Controls class
     };
   }
