@@ -23,9 +23,14 @@ function animate() {
 
   canvas.height = 700;
   // canvas.height = (window.innerHeight * 70) / 100;
+
+  ctx.save();
+  ctx.translate(-car.x + canvas.width / 2, -car.y + canvas.height / 2);
+  // ctx.scale(1.4, 1.4);
   road.draw(ctx);
 
   car.draw(ctx);
+  ctx.restore();
   // traffic.forEach((car) => {
   //   car.draw(ctx);
   // });
