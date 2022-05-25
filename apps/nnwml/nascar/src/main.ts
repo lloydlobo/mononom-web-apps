@@ -2,10 +2,12 @@ import './app/app.element.ts';
 import { Car, Road } from './app';
 const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 canvas.width = 700;
-const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-const car = new Car(100, 100, 30, 50);
 
-export const road = new Road(canvas.width / 2, canvas.width * 0.9);
+const canvasWidth = canvas.width;
+const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+const car = new Car(canvasWidth * 0.94, canvasWidth / 2, 30, 50);
+
+export const road = new Road(canvas.width / 2, canvas.width * 1);
 
 animate();
 

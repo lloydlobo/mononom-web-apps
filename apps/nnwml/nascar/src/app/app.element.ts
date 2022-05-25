@@ -4,7 +4,7 @@ export class AppElement extends HTMLElement {
   public static observedAttributes = [];
 
   connectedCallback() {
-    const title = 'Self Driving Nascar';
+    const title = 'Self Driving Car';
     this.innerHTML = `
     <div class="wrapper">
       <div class="container">
