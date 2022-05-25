@@ -34,7 +34,7 @@ export class Road {
     return lerp(
       this.width - laneWidth / 2,
       this.width / 2 - laneWidth / 2,
-      laneIndex / this.laneCount
+      Math.min(laneIndex, this.laneCount - 1) / this.laneCount
     ); // copilot
     // const laneWidth = this.width / this.laneCount;
     // return this.left + laneWidth / 2 + laneIndex * laneWidth; // change this.left to this.right for reverse order
