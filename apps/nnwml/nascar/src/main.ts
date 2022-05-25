@@ -6,7 +6,14 @@ canvas.width = 700;
 const canvasWidth = canvas.width;
 const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 export const road = new Road(canvas.width / 2, canvas.width * 1);
-const car = new Car(road.getLaneCenter(1), canvasWidth / 2, 15, 25);
+const car = new Car(road.getLaneCenter(0), canvasWidth / 2, 15, 25);
+const traffic = [
+  new Car(road.getLaneCenter(1), canvasWidth / 2, 15, 25),
+  new Car(road.getLaneCenter(2), canvasWidth / 2, 15, 25),
+  new Car(road.getLaneCenter(3), canvasWidth / 2, 15, 25),
+  new Car(road.getLaneCenter(4), canvasWidth / 2, 15, 25),
+  new Car(road.getLaneCenter(5), canvasWidth / 2, 15, 25),
+];
 
 animate();
 
@@ -18,6 +25,10 @@ function animate() {
   road.draw(ctx);
 
   car.draw(ctx);
+  traffic.forEach((car) => {
+    car.draw(ctx);
+  });
+
   requestAnimationFrame(animate);
 }
 

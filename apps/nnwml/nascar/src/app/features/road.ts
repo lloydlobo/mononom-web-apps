@@ -30,9 +30,10 @@ export class Road {
    */
   getLaneCenter(laneIndex: number) {
     // return lerp(this.left, this.right, laneIndex / this.laneCount); // copilot
+    const laneWidth = this.width / (this.laneCount * 2);
     return lerp(
-      this.right,
-      this.left + this.right / 4,
+      this.width - laneWidth / 2,
+      this.width / 2 - laneWidth / 2,
       laneIndex / this.laneCount
     ); // copilot
     // const laneWidth = this.width / this.laneCount;
