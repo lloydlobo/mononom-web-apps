@@ -2,7 +2,6 @@ import './app/app.element.ts';
 import { Car, Road } from './app';
 const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 canvas.width = 700;
-
 const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 const car = new Car(100, 100, 30, 50);
 
@@ -13,7 +12,8 @@ animate();
 function animate() {
   car.update();
 
-  canvas.height = (window.innerHeight * 70) / 100;
+  canvas.height = 700;
+  // canvas.height = (window.innerHeight * 70) / 100;
   road.draw(ctx);
 
   car.draw(ctx);
