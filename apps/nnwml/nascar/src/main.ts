@@ -5,7 +5,7 @@ canvas.width = 700;
 
 const canvasWidth = canvas.width;
 const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-const car = new Car(canvasWidth * 0.94, canvasWidth / 2, 30, 50);
+const car = new Car(canvasWidth * 0.94, canvasWidth / 2, 15, 25);
 
 export const road = new Road(canvas.width / 2, canvas.width * 1);
 
