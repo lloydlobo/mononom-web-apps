@@ -22,6 +22,23 @@ export class Road {
     this.right = x + width / 2;
   }
 
+  /**
+   * Returns the x coordinate of the center of the road
+   * @param laneIndex Get the x coordinate of the center of the lane
+   * @param laneWidth Get the width of the lane
+   * @returns
+   */
+  getLaneCenter(laneIndex: number) {
+    // return lerp(this.left, this.right, laneIndex / this.laneCount); // copilot
+    return lerp(
+      this.right,
+      this.left + this.right / 4,
+      laneIndex / this.laneCount
+    ); // copilot
+    // const laneWidth = this.width / this.laneCount;
+    // return this.left + laneWidth / 2 + laneIndex * laneWidth; // change this.left to this.right for reverse order
+  }
+
   draw(ctx) {
     ctx.lineWidth = 4;
     ctx.strokeStyle = '#fff';
