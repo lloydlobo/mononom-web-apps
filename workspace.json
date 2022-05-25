@@ -2,6 +2,8 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
+    "nnwml-nascar": "apps/nnwml/nascar",
+    "nnwml-nascar-e2e": "apps/nnwml/nascar-e2e",
     "nnwml-self-driving-car": "apps/nnwml/self-driving-car",
     "nnwml-self-driving-car-e2e": "apps/nnwml/self-driving-car-e2e"
   }
