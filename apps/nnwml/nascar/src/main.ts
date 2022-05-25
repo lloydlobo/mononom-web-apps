@@ -25,7 +25,7 @@ function animate() {
   // canvas.height = (window.innerHeight * 70) / 100;
 
   ctx.save();
-  ctx.translate(0, -car.y + canvas.height * 0.5);
+  ctx.translate(-car.x + canvas.width / 2, -car.y + canvas.height / 2);
   // ctx.scale(1.4, 1.4);
   road.draw(ctx);
 
