@@ -51,7 +51,6 @@ export class Road {
     for (let i = 1; i <= this.laneCount - 1; i += 1) {
       const x = lerp(this.left, this.right, i / this.laneCount);
       // what is the x coordinate of each of the lines/arcs? Use linear interpolation
-      // const y = lerp(this.right, this.left, i / this.laneCount);
       if (i > 3 && i < this.laneCount) {
         ctx.setLineDash([20, 20]);
       } else {
@@ -68,11 +67,11 @@ export class Road {
       });
     }
 
-    ctx.beginPath();
     for (let i = 0; i < this.laneCount; i++) {
-      this.borders[i].x = this.getLaneCenter(i);
-      this.borders[i].y = this.right;
-      ctx.strokeStyle = 'red';
+      ctx.beginPath();
+      this.borders[i].x = this.width / 2;
+      this.borders[i].y = this.right / 2;
+      ctx.strokeStyle = '#ff00ff20';
       ctx.arc(
         this.borders[i].x,
         this.borders[i].y,
@@ -82,15 +81,6 @@ export class Road {
       );
       ctx.stroke();
     }
-    // instead do it for borders[0] and borders[laneCount] -> forEach won't work but it can if it's for sensors!!!
-    // ctx.setLineDash([]);
-    // ctx.lineWidth = 4;
-    // ctx.strokeStyle = 'red';
-    // this.borders.forEach((border) => {
-    //   ctx.beginPath();
-    //   ctx.arc(this.width / 2, this.right / 2, border.radius, 0, Math.PI * 2);
-    //   ctx.stroke();
-    // });
   }
 }
 
@@ -105,6 +95,15 @@ export class Road {
       ctx.arc(this.width / 2, this.right / 2, border.radius, 0, Math.PI * 2);
       ctx.stroke();
     });
+    // instead do it for borders[0] and borders[laneCount] -> forEach won't work but it can if it's for sensors!!!
+    // ctx.setLineDash([]);
+    // ctx.lineWidth = 4;
+    // ctx.strokeStyle = 'red';
+    // this.borders.forEach((border) => {
+    //   ctx.beginPath();
+    //   ctx.arc(this.width / 2, this.right / 2, border.radius, 0, Math.PI * 2);
+    //   ctx.stroke();
+    // });
  * @202205251541
  * ctx.arc(
   (this.left + this.right) / 2,
