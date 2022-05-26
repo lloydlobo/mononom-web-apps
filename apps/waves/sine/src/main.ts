@@ -17,6 +17,7 @@ const wave = {
 
 gui.add(wave, 'y', 0, canvas.height);
 gui.add(wave, 'length', -0.01, 0.01);
+gui.add(wave, 'amplitude', -300, 300);
 
 ctx.beginPath();
 ctx.moveTo(0, canvas.height / 2);
