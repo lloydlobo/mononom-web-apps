@@ -1,9 +1,22 @@
 import './app/app.element.ts';
+import * as dat from 'dat.gui';
+
+const gui = new dat.GUI();
+
 export const canvas = document.querySelector('#canvas') as HTMLCanvasElement;
 export const ctx = canvas.getContext('2d');
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+
+const wave = {
+  y: canvas.height / 2,
+  length: 0.01,
+  amplitude: 100,
+};
+
+gui.add(wave, 'y', 0, canvas.height);
+gui.add(wave, 'length', -0.01, 0.01);
 
 ctx.beginPath();
 ctx.moveTo(0, canvas.height / 2);
