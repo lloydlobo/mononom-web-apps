@@ -26,7 +26,7 @@ const colorBackground = {
   hue: 0,
   saturation: 0,
   lightness: 0,
-  alpha: 0.01,
+  alpha: 0.08,
 };
 
 const folderWave = gui.addFolder('wave');
@@ -68,10 +68,10 @@ function animate() {
     )`;
 
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-
   ctx.beginPath();
-  ctx.moveTo(0, canvas.height / 2);
-  for (let i = 0; i < canvas.width; i += 1) {
+  // ctx.moveTo(0, canvas.height / 2); // this caused a vertical line at the left of the canvas
+  ctx.moveTo(-2, canvas.height / 2);
+  for (let i = -1; i <= canvas.width; i += 1) {
     ctx.lineTo(
       i,
       wave.y +
