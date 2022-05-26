@@ -39,12 +39,12 @@ folderWave.add(wave, 'amplitude', -300, 300);
 folderWave.add(wave, 'frequency', -0.01, 1);
 folderWave.open(); // helps to default to open on window load by default
 
-folderColorOfStroke.add(colorOfStroke, 'hue', 0, 255);
+folderColorOfStroke.add(colorOfStroke, 'hue', 0, 360);
 folderColorOfStroke.add(colorOfStroke, 'saturation', 0, 100);
 folderColorOfStroke.add(colorOfStroke, 'lightness', 0, 100);
 // folderColorOfStroke.open();
 
-folderBackground.add(colorBackground, 'hue', 0, 255);
+folderBackground.add(colorBackground, 'hue', 0, 360);
 folderBackground.add(colorBackground, 'saturation', 0, 100);
 folderBackground.add(colorBackground, 'lightness', 0, 100);
 folderBackground.add(colorBackground, 'alpha', 0, 1);
@@ -96,10 +96,10 @@ animate();
  * // create a point for each pixel, right now we have two controllable points the left and right ends of window - least 600 points is enough
  * 202205260910
  * for (let i = 0; i < canvas.width; i += 1) {
- const amplitude = 100;
- const waveLength = 0.01;
- ctx.lineTo(i, canvas.height / 2 + Math.sin(i * waveLength) * amplitude); // draw a line each time we iterate through the for loop // Math.sin() returns -1 to +1
-}
+ *  const amplitude = 100;
+ *  const waveLength = 0.01;
+    ctx.lineTo(i, canvas.height / 2 + Math.sin(i * waveLength) * amplitude); // draw a line each time we iterate through the for loop // Math.sin() returns -1 to +1
+    }
  * 202205260846
  // ctx.lineTo(canvas.width, canvas.height / 2);
  *
