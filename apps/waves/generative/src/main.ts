@@ -43,7 +43,7 @@ function animate(): void {
       i,
       wave.y +
         waveSine(i, wave, increment, incrementX) *
-          (wave.amplitude * modulateWave(increment, 'sine'))
+          (wave.amplitude * modulateWave(increment, 'logarithmic'))
     );
   }
 
@@ -109,6 +109,26 @@ export function modulateWave(increment: number, typeOfWave: string): number {
     return 1 / Math.asinh(increment);
   } else if (typeOfWave === 'inverseHyperbolicCosecant') {
     return 1 / Math.acosh(increment);
+  } else if (typeOfWave === 'square') {
+    return Math.pow(increment, 2);
+  } else if (typeOfWave === 'cube') {
+    return Math.pow(increment, 3);
+  } else if (typeOfWave === 'exponential') {
+    return Math.exp(increment);
+  } else if (typeOfWave === 'logarithmic') {
+    return Math.log(increment);
+  } else if (typeOfWave === 'naturalLogarithm') {
+    return Math.log(increment);
+  } else if (typeOfWave === 'inverseLogarithm') {
+    return 1 / Math.log(increment);
+  } else if (typeOfWave === 'inverseNaturalLogarithm') {
+    return 1 / Math.log(increment);
+  } else if (typeOfWave === 'inverseExponential') {
+    return 1 / Math.exp(increment);
+  } else if (typeOfWave === 'inverseSquare') {
+    return 1 / Math.pow(increment, 2);
+  } else if (typeOfWave === 'inverseCube') {
+    return 1 / Math.pow(increment, 3);
   } else {
     return Math.sin(increment);
   }
