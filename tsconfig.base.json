@@ -14,11 +14,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {
-      "@mononom-web-apps/utils/number-gen": [
-        "libs/utils/number-gen/src/index.ts"
-      ]
-    }
+    "paths": {}
   },
   "exclude": ["node_modules", "tmp"]
 }

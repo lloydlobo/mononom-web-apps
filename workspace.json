@@ -6,7 +6,6 @@
     "nnwml-nascar-e2e": "apps/nnwml/nascar-e2e",
     "nnwml-self-driving-car": "apps/nnwml/self-driving-car",
     "nnwml-self-driving-car-e2e": "apps/nnwml/self-driving-car-e2e",
-    "utils-number-gen": "libs/utils/number-gen",
     "waves-sine": "apps/waves/sine",
     "waves-sine-e2e": "apps/waves/sine-e2e"
   }
