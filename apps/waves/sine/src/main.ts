@@ -16,10 +16,26 @@ const wave = {
   frequency: 0.01,
 };
 
-gui.add(wave, 'y', 0, canvas.height);
-gui.add(wave, 'wavelength', -0.01, 0.01);
-gui.add(wave, 'amplitude', -300, 300);
-gui.add(wave, 'frequency', -0.01, 1);
+const colorOfStroke = {
+  hue: 200,
+  saturation: 50,
+  lightness: 50,
+};
+
+const folderWave = gui.addFolder('wave');
+const folderColorOfStroke = gui.addFolder('color');
+
+folderWave.add(wave, 'y', 0, canvas.height);
+folderWave.add(wave, 'wavelength', -0.01, 0.01);
+folderWave.add(wave, 'amplitude', -300, 300);
+folderWave.add(wave, 'frequency', -0.01, 1);
+
+folderColorOfStroke.add(colorOfStroke, 'hue', 0, 255);
+folderColorOfStroke.add(colorOfStroke, 'saturation', 0, 100);
+folderColorOfStroke.add(colorOfStroke, 'lightness', 0, 100);
+
+folderWave.open(); // helps to default to open on window load by default
+folderColorOfStroke.open();
 
 let increment = wave.frequency;
 function animate() {
@@ -37,7 +53,7 @@ function animate() {
     ); // draw a line each time we iterate through the for loop // Math.sin() returns -1 to +1
   } // create a point for each pixel, right now we have two controllable points the left and right ends of window - least 600 points is enough
   // ctx.strokeStyle = `hsl(${Math.random() * 360}, 50%, 50%)`;
-  ctx.strokeStyle = `hsl(0, 50%, 50%)`;
+  ctx.strokeStyle = `hsl(${colorOfStroke.hue}, ${colorOfStroke.saturation}%, ${colorOfStroke.lightness}%)`;
   ctx.stroke();
 
   increment += wave.frequency;
