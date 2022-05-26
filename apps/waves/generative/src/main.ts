@@ -20,7 +20,9 @@ const wave = {
 };
 
 let increment = wave.frequency;
-const incrementX = 0;
+
+type FlipType = 0 | 1 | -1; // 1 is for sine wave moving along the x axis and 0 is for stationary wave moving nowhere but oscillating along the y axis
+const incrementX: FlipType = 0;
 
 function animate(): void {
   requestAnimationFrame(animate);
