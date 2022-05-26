@@ -1,0 +1,34 @@
+{
+  "$schema": "..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
+  "sourceRoot": "apps/waves/generative-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/waves/generative-e2e/cypress.json",
+        "devServerTarget": "waves-generative:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "waves-generative:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/waves/generative-e2e/**/*.{js,ts}"]
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["waves-generative"]
+}

@@ -1,0 +1,76 @@
+{
+  "$schema": "..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/waves/generative/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/waves/generative",
+        "compiler": "babel",
+        "index": "apps/waves/generative/src/index.html",
+        "baseHref": "/",
+        "main": "apps/waves/generative/src/main.ts",
+        "polyfills": "apps/waves/generative/src/polyfills.ts",
+        "tsConfig": "apps/waves/generative/tsconfig.app.json",
+        "assets": [
+          "apps/waves/generative/src/favicon.ico",
+          "apps/waves/generative/src/assets"
+        ],
+        "styles": ["apps/waves/generative/src/styles.scss"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/waves/generative/src/environments/environment.ts",
+              "with": "apps/waves/generative/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "waves-generative:build"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "waves-generative:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/waves/generative/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/waves/generative"],
+      "options": {
+        "jestConfig": "apps/waves/generative/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular"
+      }
+    }
+  }
+}
