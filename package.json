@@ -23,6 +23,7 @@
     "@nrwl/web": "^14.1.6",
     "@nrwl/workspace": "14.1.6",
     "@nx-clean/plugin-core": "^1.7.0",
+    "@types/dat.gui": "^0.7.7",
     "@types/jest": "^27.4.1",
     "@types/node": "16.11.7",
     "@typescript-eslint/eslint-plugin": "~5.18.0",
@@ -44,6 +45,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "dat.gui": "^0.7.9",
     "regenerator-runtime": "0.13.7",
     "tslib": "^2.3.0"
   }
