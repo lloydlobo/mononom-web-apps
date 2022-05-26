@@ -1,0 +1,23 @@
+{
+  "$schema": "..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
+  "sourceRoot": "libs/utils/number-gen/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/utils/number-gen/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/utils/number-gen"],
+      "options": {
+        "jestConfig": "libs/utils/number-gen/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["number", "generators", "library"]
+}
