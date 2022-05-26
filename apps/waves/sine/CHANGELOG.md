@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.2.0](https://github.com/lloydlobo/mononom-web-apps/compare/waves-sine-0.1.0...waves-sine-0.2.0) (2022-05-26)
+
+
+### Features
+
+* fine tune colors and sine wavelength to be dynamic ([#12](https://github.com/lloydlobo/mononom-web-apps/issues/12)) ([0f5eaf4](https://github.com/lloydlobo/mononom-web-apps/commit/0f5eaf4dfaf4cf669e81c1bf4277c96496c526cc))
+
+
+
 # 0.1.0 (2022-05-26)
 
 
