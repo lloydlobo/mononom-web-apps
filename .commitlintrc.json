@@ -9,7 +9,8 @@
       [
         "semver",
         "nnwml-self-driving-car",
-        "nnwml-nascar"
+        "nnwml-nascar",
+        "waves-sine"
       ]
     ],
     "type-enum": [

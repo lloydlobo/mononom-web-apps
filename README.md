@@ -41,6 +41,11 @@ git ls-files -z | while IFS= read -rd '' f; do tail -c1 < "$f" | read -r _ || ec
 > Nx plugin to automate semantic versioning and CHANGELOG generation.
 
 ```bash
+npm install -D @jscutlery/semver
+nx g @jscutlery/semver:install
+```
+
+```bash
 nx run <project-name>:version [...options]
 ```
 
