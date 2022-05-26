@@ -42,29 +42,29 @@ folderWave.open(); // helps to default to open on window load by default
 folderColorOfStroke.add(colorOfStroke, 'hue', 0, 255);
 folderColorOfStroke.add(colorOfStroke, 'saturation', 0, 100);
 folderColorOfStroke.add(colorOfStroke, 'lightness', 0, 100);
-folderColorOfStroke.open();
+// folderColorOfStroke.open();
 
 folderBackground.add(colorBackground, 'hue', 0, 255);
 folderBackground.add(colorBackground, 'saturation', 0, 100);
 folderBackground.add(colorBackground, 'lightness', 0, 100);
 folderBackground.add(colorBackground, 'alpha', 0, 1);
-folderBackground.open();
+// folderBackground.open();
 
 let increment = wave.frequency;
 
 function animate() {
   requestAnimationFrame(animate);
-
-  ctx.strokeStyle = `hsl(
-    ${colorOfStroke.hue},
-    ${colorOfStroke.saturation}%,
-    ${colorOfStroke.lightness}%
-    )`;
   ctx.fillStyle = `hsla(
     ${colorBackground.hue},
     ${colorBackground.saturation}%,
     ${colorBackground.lightness}%,
     ${colorBackground.alpha}
+    )`;
+
+  ctx.strokeStyle = `hsl(
+    ${Math.abs(colorOfStroke.hue * Math.sin(increment))},
+    ${colorOfStroke.saturation}%,
+    ${colorOfStroke.lightness}%
     )`;
 
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -74,9 +74,13 @@ function animate() {
   for (let i = 0; i < canvas.width; i += 1) {
     ctx.lineTo(
       i,
-      wave.y + Math.sin(i * wave.wavelength + increment) * wave.amplitude
+      wave.y +
+        Math.sin(((i * wave.wavelength) as number) + increment) *
+          (wave.amplitude * Math.sin(increment))
     );
   }
+  // console.log(Math.abs(colorOfStroke.hue * Math.sin(increment)));
+
   ctx.stroke();
 
   increment += wave.frequency;
