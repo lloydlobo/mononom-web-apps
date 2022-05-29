@@ -1,4 +1,5 @@
 import './app.element.css';
+import './features/sensor.ts';
 
 export class AppElement extends HTMLElement {
   public static observedAttributes = [];

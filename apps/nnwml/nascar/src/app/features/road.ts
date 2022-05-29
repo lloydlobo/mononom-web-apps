@@ -4,10 +4,17 @@ export class Road {
   left: number;
   right: number;
   borders: { x: number; y: number; radius: number }[];
-  constructor(public x: number, public width: number, public laneCount = 6) {
+  scaleRoad: number;
+  constructor(
+    public x: number,
+    public width: number,
+    public laneCount = 6,
+    scaleRoad = 0.9
+  ) {
     this.x = x;
     this.width = width;
     this.laneCount = laneCount;
+    this.scaleRoad = scaleRoad;
 
     // this.lanes = [];
     // for (let i = 0; i < this.laneCount; i++) {
@@ -22,7 +29,7 @@ export class Road {
       {
         x: this.left,
         y: this.right,
-        radius: (this.right - this.left) / 2,
+        radius: ((this.right - this.left) * this.scaleRoad) / 2,
       },
     ];
   }
@@ -30,7 +37,7 @@ export class Road {
   /**
    * Returns the x coordinate of the center of the road
    * @param laneIndex Get the x coordinate of the center of the lane
-   * @param laneWidth Get the width of the lane
+   * laneWidth Get the width of the lane
    * @returns
    */
   getLaneCenter(laneIndex: number) {
@@ -45,7 +52,7 @@ export class Road {
     // return this.left + laneWidth / 2 + laneIndex * laneWidth; // change this.left to this.right for reverse order
   }
 
-  draw(ctx) {
+  draw(ctx: CanvasRenderingContext2D) {
     ctx.lineWidth = 4;
     ctx.strokeStyle = '#fff';
     for (let i = 1; i <= this.laneCount - 1; i += 1) {
@@ -58,12 +65,18 @@ export class Road {
       }
 
       ctx.beginPath();
-      ctx.arc(this.width / 2, this.right / 2, x / 2, 0, Math.PI * 2);
+      ctx.arc(
+        this.width / 2,
+        this.right / 2,
+        (x * this.scaleRoad) / 2,
+        0,
+        Math.PI * 2
+      );
       ctx.stroke();
       this.borders.push({
         x: this.width,
         y: this.right,
-        radius: x / 2,
+        radius: (x * this.scaleRoad) / 2,
       });
     }
 

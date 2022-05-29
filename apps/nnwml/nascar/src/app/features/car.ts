@@ -1,11 +1,14 @@
 import { Controls } from './controls';
+import { Sensor } from './sensor';
 
 export class Car {
   speed: number;
   acceleration: number;
   controls: Controls;
+  sensor: Sensor;
   friction: number;
   angle: number;
+  // outOfBounds: any;
 
   constructor(
     public x: number,
@@ -27,11 +30,16 @@ export class Car {
 
     this.angle = 0; // implemented to curb car going past maxSpeed diagonally
 
+    this.sensor = new Sensor(this);
+
     this.controls = new Controls();
+
+    // this.outOfBounds = false;
   }
 
   update() {
     this.move();
+    this.sensor.update();
   }
 
   private move() {
@@ -67,6 +75,8 @@ export class Car {
     ctx.fill();
 
     ctx.restore(); // after translating at each frame infinite series happen so restore it
+
+    this.sensor.draw(ctx);
   }
 }
 
