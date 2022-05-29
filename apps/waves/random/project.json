@@ -1,0 +1,70 @@
+{
+  "$schema": "..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/waves/random/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/waves/random",
+        "compiler": "babel",
+        "index": "apps/waves/random/src/index.html",
+        "baseHref": "/",
+        "main": "apps/waves/random/src/main.ts",
+        "polyfills": "apps/waves/random/src/polyfills.ts",
+        "tsConfig": "apps/waves/random/tsconfig.app.json",
+        "assets": [
+          "apps/waves/random/src/favicon.ico",
+          "apps/waves/random/src/assets"
+        ],
+        "styles": ["apps/waves/random/src/styles.scss"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/waves/random/src/environments/environment.ts",
+              "with": "apps/waves/random/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "waves-random:build"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "waves-random:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/waves/random/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/waves/random"],
+      "options": {
+        "jestConfig": "apps/waves/random/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}
