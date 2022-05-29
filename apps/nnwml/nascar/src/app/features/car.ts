@@ -37,9 +37,9 @@ export class Car {
     // this.outOfBounds = false;
   }
 
-  update() {
+  update(roadBorders) {
     this.move();
-    this.sensor.update();
+    this.sensor.update(roadBorders);
   }
 
   private move() {
